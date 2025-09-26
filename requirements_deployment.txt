@@ -29,6 +29,11 @@ plotly>=5.15.0
 # Multi-language Support
 googletrans==4.0.0rc1
 
+# Audio Processing
+SpeechRecognition>=3.10.0
+pyaudio>=0.2.11
+wave
+
 # Medical AI Libraries
 medspacy>=1.0.0
 scispacy>=0.5.0

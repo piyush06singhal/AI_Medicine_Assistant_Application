@@ -5,7 +5,11 @@ Configuration settings for the AI Medical Assistant.
 import os
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseSettings, Field
+try:
+    from pydantic_settings import BaseSettings
+    from pydantic import Field
+except ImportError:
+    from pydantic import BaseSettings, Field
 
 # Project root directory
 PROJECT_ROOT = Path(__file__).parent.parent
