@@ -51,18 +51,6 @@ An advanced AI Medical Assistant that combines Natural Language Processing, Comp
 - **Emergency Information** and contact details
 - **Professional Documentation**
 
-## 🚀 Live Demo
-
-### Streamlit Cloud Deployment
-[![Deploy on Streamlit Cloud](https://img.shields.io/badge/Deploy%20on%20Streamlit%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://share.streamlit.io)
-
-**Live Application:** `https://your-app-name.streamlit.app`
-
-### HuggingFace Spaces
-[![HuggingFace Spaces](https://img.shields.io/badge/HuggingFace%20Spaces-FF6B6B?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces)
-
-**Live Application:** `https://huggingface.co/spaces/your-username/ai-medical-assistant`
-
 ## 🛠️ Technology Stack
 
 ### **Frontend & Web Framework**
