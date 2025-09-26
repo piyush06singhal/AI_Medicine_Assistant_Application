@@ -6,8 +6,15 @@ Supports English and Hindi for symptom input and interface.
 import re
 import logging
 from typing import Dict, List, Optional, Tuple
-from googletrans import Translator
 import streamlit as st
+
+# Try to import googletrans, fallback to simple translation if not available
+try:
+    from googletrans import Translator
+    HAS_GOOGLETRANS = True
+except ImportError:
+    HAS_GOOGLETRANS = False
+    Translator = None
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -18,7 +25,11 @@ class MultiLanguageSupport:
     
     def __init__(self):
         """Initialize multi-language support."""
-        self.translator = Translator()
+        if HAS_GOOGLETRANS:
+            self.translator = Translator()
+        else:
+            self.translator = None
+            
         self.supported_languages = {
             'en': 'English',
             'hi': 'हिंदी (Hindi)'
@@ -160,13 +171,44 @@ class MultiLanguageSupport:
             if source_lang == target_lang:
                 return text
             
-            # Translate using Google Translate
-            result = self.translator.translate(text, src=source_lang, dest=target_lang)
-            return result.text
+            # Use Google Translate if available
+            if HAS_GOOGLETRANS and self.translator:
+                result = self.translator.translate(text, src=source_lang, dest=target_lang)
+                return result.text
+            else:
+                # Fallback to simple translation
+                return self._simple_translate(text, source_lang, target_lang)
             
         except Exception as e:
             logger.error(f"Error translating text: {e}")
             return text  # Return original text if translation fails
+    
+    def _simple_translate(self, text: str, source_lang: str, target_lang: str) -> str:
+        """Simple translation fallback."""
+        # Simple Hindi to English medical term translations
+        if source_lang == 'hi' and target_lang == 'en':
+            translations = {
+                'बार-बार पेशाब आना': 'frequent urination',
+                'अत्यधिक प्यास': 'excessive thirst',
+                'थकान': 'fatigue',
+                'सिरदर्द': 'headache',
+                'बुखार': 'fever',
+                'सीने में दर्द': 'chest pain',
+                'सांस लेने में तकलीफ': 'shortness of breath',
+                'मतली': 'nausea',
+                'उल्टी': 'vomiting',
+                'कमजोरी': 'weakness',
+                'चक्कर आना': 'dizziness',
+                'बेचैनी': 'restlessness'
+            }
+            
+            translated_text = text
+            for hindi, english in translations.items():
+                translated_text = translated_text.replace(hindi, english)
+            return translated_text
+        
+        # For other cases, return original text
+        return text
     
     def get_ui_text(self, key: str, language: str = 'en') -> str:
         """
