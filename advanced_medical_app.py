@@ -18,9 +18,18 @@ import random
 import base64
 from PIL import Image
 import io
-import speech_recognition as sr
-import pyaudio
-import wave
+# Voice processing imports with fallback
+try:
+    import speech_recognition as sr
+    import pyaudio
+    import wave
+    HAS_VOICE_SUPPORT = True
+except ImportError:
+    HAS_VOICE_SUPPORT = False
+    sr = None
+    pyaudio = None
+    wave = None
+
 import tempfile
 import os
 
@@ -410,6 +419,12 @@ def create_voice_input_section():
     """Create advanced voice input section."""
     st.markdown('<div class="voice-section">', unsafe_allow_html=True)
     st.markdown('<h3>🎤 Voice Input - Describe Your Symptoms</h3>', unsafe_allow_html=True)
+    
+    if not HAS_VOICE_SUPPORT:
+        st.warning("⚠️ Voice input is not available in this environment. Please use text input instead.")
+        st.info("💡 **Alternative:** You can type your symptoms in the text area below for the same AI analysis.")
+        st.markdown('</div>', unsafe_allow_html=True)
+        return
     
     col1, col2, col3 = st.columns([1, 2, 1])
     
