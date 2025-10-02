@@ -844,15 +844,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-        - **Data Visualization:** Interactive Plotly charts
-        - **Database:** Comprehensive medical knowledge base
-        
-        ### ⚠️ Medical Disclaimer
-        
-        This application is for educational and research purposes only. It is not intended for clinical use or medical diagnosis. Always consult qualified healthcare professionals for medical advice and treatment.
-        """)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()
