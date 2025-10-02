@@ -843,44 +843,7 @@ def main():
         st.markdown('</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
-    main()card">', unsafe_allow_html=True)
-        st.markdown('<h2>About Advanced AI Medical Assistant</h2>', unsafe_allow_html=True)
-        
-        st.markdown("""
-        ### 🏥 Advanced AI Medical Assistant Features
-        
-        **🤖 Enhanced AI-Powered Analysis:**
-        - Advanced machine learning models with 90%+ accuracy
-        - Real-time symptom analysis and pattern recognition
-        - Multi-modal input processing (text + images)
-        - Confidence scoring and risk assessment
-        - Multi-language support (6 languages)
-        
-        **📸 Advanced Image Analysis:**
-        - Medical image processing (X-ray, MRI, CT scans)
-        - Skin condition detection and analysis
-        - Automated diagnosis assistance
-        - Independent image analysis (no text required)
-        
-        **📝 Enhanced Text Analysis:**
-        - Natural language processing with advanced algorithms
-        - Symptom pattern recognition and matching
-        - Comprehensive risk factor assessment
-        - Detailed treatment recommendations
-        - Medical report generation
-        
-        **🎨 Beautiful Modern UI:**
-        - Vibrant color gradients and glassmorphism design
-        - Full-width responsive layout
-        - Interactive visualizations and charts
-        - Professional medical interface
-        
-        ### 🔬 Advanced Technology Stack
-        
-        - **AI/ML:** Enhanced simulation models with improved accuracy
-        - **Computer Vision:** Advanced image processing with PIL
-        - **NLP:** Advanced text analysis with pattern matching
-        - **Web Framework:** Streamlit with custom CSS
+    main()
         - **Data Visualization:** Interactive Plotly charts
         - **Database:** Comprehensive medical knowledge base
         
