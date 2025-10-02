@@ -41,10 +41,23 @@ def load_advanced_css():
     
     /* Main container with beautiful background */
     .main-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
         min-height: 100vh;
         padding: 0;
         margin: 0;
+    }
+    
+    /* Improve text contrast and readability */
+    .stMarkdown, .stText, p, span, div {
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    /* White text for better visibility */
+    h1, h2, h3, h4, h5, h6 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        font-weight: 700 !important;
     }
     
     /* Hide sidebar completely */
@@ -54,30 +67,42 @@ def load_advanced_css():
     
     /* Medical card styling with glassmorphism */
     .medical-card {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px);
         border-radius: 20px;
-        padding: 2rem;
-        margin: 1rem 0;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 2.5rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.5);
         transition: all 0.3s ease;
     }
     
     .medical-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Dark text inside cards for readability */
+    .medical-card p, .medical-card span, .medical-card div {
+        color: #1a1a1a !important;
+        text-shadow: none !important;
+    }
+    
+    .medical-card h1, .medical-card h2, .medical-card h3, .medical-card h4 {
+        color: #1a1a1a !important;
+        text-shadow: none !important;
     }
     
     /* Prediction styling with vibrant gradients */
     .prediction-container {
         text-align: center;
         padding: 3rem;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
         border-radius: 25px;
         margin: 2rem 0;
         color: white;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 25px 50px rgba(139, 92, 246, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.3);
     }
     
     .prediction-disease {
@@ -119,43 +144,38 @@ def load_advanced_css():
     
     /* Input section with gradient borders */
     .input-section {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.15);
         border-radius: 20px;
         padding: 2.5rem;
         margin: 1.5rem 0;
-        border: 3px solid transparent;
-        background-clip: padding-box;
-        position: relative;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
     }
     
-    .input-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 20px;
-        padding: 3px;
-        background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        -webkit-mask-composite: xor;
+    .input-section h2, .input-section h3 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
     /* Image upload section */
     .image-upload-section {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.15);
         border-radius: 20px;
         padding: 2.5rem;
         margin: 1.5rem 0;
-        border: 3px dashed rgba(255, 255, 255, 0.5);
+        border: 3px dashed rgba(255, 255, 255, 0.6);
         transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
     }
     
     .image-upload-section:hover {
-        border-color: rgba(255, 255, 255, 0.8);
-        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .image-upload-section h3 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
     /* Header styling with gradient text */
@@ -186,21 +206,21 @@ def load_advanced_css():
     
     /* Enhanced button styling */
     .stButton > button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 30px;
-        padding: 0.8rem 3rem;
-        font-weight: bold;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 30px !important;
+        padding: 0.8rem 3rem !important;
+        font-weight: bold !important;
+        font-size: 1.1rem !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4) !important;
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6) !important;
+        background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
     }
     
     /* Tab styling */
@@ -274,6 +294,65 @@ def load_advanced_css():
         max-width: 100%;
         padding: 1rem 2rem;
     }
+    
+    /* Improve label visibility */
+    label, .stSelectbox label, .stTextArea label, .stTextInput label {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    /* Improve input fields */
+    .stTextArea textarea, .stTextInput input, .stSelectbox select {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid rgba(255, 255, 255, 0.5) !important;
+        border-radius: 10px !important;
+        color: #1a1a1a !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Expander styling */
+    .streamlit-expanderHeader {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 10px !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Success/Info/Warning messages */
+    .stSuccess, .stInfo, .stWarning {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 10px !important;
+        padding: 1rem !important;
+    }
+    
+    /* Tab content area */
+    .stTabs [data-baseweb="tab-panel"] {
+        padding-top: 2rem;
+    }
+    
+    /* Checkbox styling */
+    .stCheckbox label {
+        color: #ffffff !important;
+        font-weight: 500 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    /* Download button */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+        color: white !important;
+        border-radius: 20px !important;
+        padding: 0.6rem 2rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4) !important;
+    }
+    
+    .stDownloadButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6) !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -290,6 +369,14 @@ def create_enhanced_input_section():
     """Create enhanced input section with better functionality."""
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown('<h2>📝 Describe Your Symptoms</h2>', unsafe_allow_html=True)
+    
+    # API Key info (optional for future integration)
+    with st.expander("🔑 API Configuration (Optional - For Real AI Integration)"):
+        st.info("💡 Currently using built-in medical knowledge base. To integrate with OpenAI GPT-4, Google Gemini, or other AI services, add your API key here.")
+        api_key = st.text_input("API Key (Optional):", type="password", help="Enter your AI service API key for enhanced analysis")
+        if api_key:
+            st.session_state.api_key = api_key
+            st.success("✅ API Key saved for this session!")
     
     # Language selection
     language = st.selectbox(
@@ -345,17 +432,12 @@ def create_enhanced_image_upload_section():
     )
     
     if uploaded_file is not None:
-        # Display uploaded image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Medical Image", use_column_width=True)
-        
-        # Store in session state
+        # Store in session state without displaying
         st.session_state.uploaded_image = uploaded_file
-        st.success("✅ Image uploaded successfully! You can analyze it independently.")
+        st.success("✅ Image uploaded successfully! Processing image...")
         
-        # Image analysis button
-        if st.button("🔍 Analyze Image", key="analyze_image"):
-            st.session_state.analyze_image = True
+        # Auto-trigger analysis
+        st.session_state.analyze_image = True
     
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -594,24 +676,20 @@ def create_enhanced_prediction_section(symptoms, language, analyze_button, inclu
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Enhanced results display
-    col1, col2 = st.columns(2)
+    # Enhanced results display with paragraph format
+    st.markdown("### 🔗 Related Symptoms")
+    symptoms_text = "Based on the analysis, the related symptoms include: " + ", ".join(result['related_symptoms'][:-1]) + ", and " + result['related_symptoms'][-1] + ". These symptoms are commonly associated with the predicted condition and should be monitored carefully. If you experience any of these symptoms worsening or new symptoms developing, it's important to seek medical attention promptly."
+    st.markdown(f"<p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>{symptoms_text}</p>", unsafe_allow_html=True)
     
-    with col1:
-        st.markdown("### 🔗 Related Symptoms")
-        for symptom in result['related_symptoms']:
-            st.markdown(f"• {symptom}")
-    
-    with col2:
-        st.markdown("### ⚠️ Recommended Actions")
-        for precaution in result['precautions']:
-            st.markdown(f"• {precaution}")
+    st.markdown("### ⚠️ Recommended Actions")
+    precautions_text = "To manage this condition effectively, here are the recommended actions: " + ". ".join(result['precautions']) + ". Following these precautions can help improve your condition and prevent complications. It's essential to maintain consistency with these recommendations and consult with healthcare professionals for personalized advice tailored to your specific situation."
+    st.markdown(f"<p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>{precautions_text}</p>", unsafe_allow_html=True)
     
     # Risk factors if enabled
     if include_risk_factors and result['risk_factors']:
         st.markdown("### 🚨 Risk Factors")
-        for risk in result['risk_factors']:
-            st.markdown(f"• {risk}")
+        risk_text = "Several risk factors may contribute to this condition: " + ", ".join(result['risk_factors'][:-1]) + ", and " + result['risk_factors'][-1] + ". Understanding these risk factors is crucial for prevention and early intervention. If you identify with multiple risk factors, it's advisable to discuss them with your healthcare provider to develop a comprehensive management plan."
+        st.markdown(f"<p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>{risk_text}</p>", unsafe_allow_html=True)
     
     # Top predictions with enhanced visualization
     if result.get('top_predictions'):
@@ -713,6 +791,59 @@ def main():
     with tab2:
         # About section
         st.markdown('<div class="medical-card">', unsafe_allow_html=True)
+        st.markdown("## 🏥 About Advanced AI Medical Assistant")
+        
+        st.markdown("""
+        <p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>
+        This Advanced AI Medical Assistant is designed to provide preliminary medical analysis based on symptoms and medical images. 
+        The system uses sophisticated pattern matching and a comprehensive medical knowledge base to identify potential conditions 
+        and provide relevant health information.
+        </p>
+        
+        <h3>🎯 Key Features</h3>
+        <p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>
+        Our system offers comprehensive symptom analysis with high accuracy disease prediction, medical image analysis capabilities 
+        for various imaging types including X-rays and MRI scans, multi-language support for global accessibility, detailed risk 
+        factor assessment, and personalized precautions and recommendations. The platform generates downloadable medical reports 
+        and provides real-time confidence scoring to help you understand the reliability of each prediction.
+        </p>
+        
+        <h3>🔬 Technology</h3>
+        <p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>
+        Currently, the system operates using an advanced medical knowledge base with pattern recognition algorithms. For enhanced 
+        accuracy and real-time AI capabilities, you can integrate external AI services like OpenAI GPT-4, Google Gemini, or 
+        specialized medical AI APIs by providing your API key in the configuration section. This integration would enable more 
+        sophisticated natural language understanding and improved diagnostic suggestions.
+        </p>
+        
+        <h3>⚠️ Important Disclaimer</h3>
+        <p style='text-align: justify; line-height: 1.8; font-size: 1.05rem; color: #dc2626 !important; font-weight: 600;'>
+        This tool is designed for educational and informational purposes only. It should not be used as a substitute for 
+        professional medical advice, diagnosis, or treatment. Always seek the advice of qualified healthcare providers with 
+        any questions you may have regarding a medical condition. Never disregard professional medical advice or delay seeking 
+        it because of information provided by this application. In case of emergency, contact your local emergency services immediately.
+        </p>
+        
+        <h3>📊 Accuracy & Reliability</h3>
+        <p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>
+        The system provides confidence scores for each prediction to help you understand the reliability of the analysis. 
+        Higher confidence scores indicate stronger pattern matches with known medical conditions. However, even high confidence 
+        predictions should be verified by qualified medical professionals. The system is continuously updated with the latest 
+        medical knowledge to improve accuracy and reliability.
+        </p>
+        
+        <h3>🔒 Privacy & Security</h3>
+        <p style='text-align: justify; line-height: 1.8; font-size: 1.05rem;'>
+        Your privacy is our priority. All symptom descriptions and medical images are processed locally and are not stored 
+        permanently. Session data is cleared when you close the application. If you choose to integrate external AI services, 
+        please review their respective privacy policies to understand how your data may be processed.
+        </p>
+        """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()card">', unsafe_allow_html=True)
         st.markdown('<h2>About Advanced AI Medical Assistant</h2>', unsafe_allow_html=True)
         
         st.markdown("""
