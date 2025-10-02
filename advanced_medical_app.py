@@ -23,335 +23,317 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Advanced CSS styling with beautiful gradients
+# Professional Medical UI Design
 def load_advanced_css():
-    """Load advanced CSS with beautiful gradients and modern design."""
+    """Load professional medical UI with excellent readability."""
     st.markdown("""
     <style>
-    /* Advanced Medical Theme with Beautiful Gradients */
-    :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        --info-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    /* Professional Medical Theme */
+    .stApp {
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
     }
     
-    /* Main container with beautiful background */
-    .main-container {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
-        min-height: 100vh;
-        padding: 0;
-        margin: 0;
+    /* Main container */
+    .main .block-container {
+        max-width: 1400px;
+        padding: 2rem 3rem;
     }
     
-    /* Improve text contrast and readability */
-    .stMarkdown, .stText, p, span, div {
-        color: #ffffff !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    }
-    
-    /* White text for better visibility */
-    h1, h2, h3, h4, h5, h6 {
-        color: #ffffff !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-        font-weight: 700 !important;
-    }
-    
-    /* Hide sidebar completely */
-    .css-1d391kg {
-        display: none;
-    }
-    
-    /* Medical card styling with glassmorphism */
-    .medical-card {
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 2.5rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        transition: all 0.3s ease;
-    }
-    
-    .medical-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
-    }
-    
-    /* Dark text inside cards for readability */
-    .medical-card p, .medical-card span, .medical-card div {
-        color: #1a1a1a !important;
-        text-shadow: none !important;
-    }
-    
-    .medical-card h1, .medical-card h2, .medical-card h3, .medical-card h4 {
-        color: #1a1a1a !important;
-        text-shadow: none !important;
-    }
-    
-    /* Prediction styling with vibrant gradients */
-    .prediction-container {
-        text-align: center;
-        padding: 3rem;
-        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
-        border-radius: 25px;
-        margin: 2rem 0;
-        color: white;
-        box-shadow: 0 25px 50px rgba(139, 92, 246, 0.4);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .prediction-disease {
-        font-size: 3rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-        background: linear-gradient(45deg, #fff, #f0f0f0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .prediction-confidence {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
-        opacity: 0.95;
-        font-weight: 600;
-    }
-    
-    /* Enhanced confidence bar */
-    .confidence-bar {
-        width: 100%;
-        height: 25px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 15px;
-        overflow: hidden;
-        margin: 1.5rem 0;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .confidence-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
-        border-radius: 15px;
-        transition: width 0.8s ease;
-        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-    }
-    
-    /* Input section with gradient borders */
-    .input-section {
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 20px;
-        padding: 2.5rem;
-        margin: 1.5rem 0;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px);
-    }
-    
-    .input-section h2, .input-section h3 {
-        color: #ffffff !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    /* Image upload section */
-    .image-upload-section {
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 20px;
-        padding: 2.5rem;
-        margin: 1.5rem 0;
-        border: 3px dashed rgba(255, 255, 255, 0.6);
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
-    
-    .image-upload-section:hover {
-        border-color: rgba(255, 255, 255, 0.9);
-        background: rgba(255, 255, 255, 0.2);
-    }
-    
-    .image-upload-section h3 {
-        color: #ffffff !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    /* Header styling with gradient text */
-    .app-header {
-        text-align: center;
-        color: white;
-        margin-bottom: 3rem;
-        padding: 2rem 0;
-    }
-    
-    .app-title {
-        font-size: 4rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
-        background: linear-gradient(45deg, #fff, #f0f0f0, #e0e0e0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .app-subtitle {
-        font-size: 1.4rem;
-        opacity: 0.95;
-        margin-bottom: 2rem;
-        font-weight: 500;
-    }
-    
-    /* Enhanced button styling */
-    .stButton > button {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 30px !important;
-        padding: 0.8rem 3rem !important;
-        font-weight: bold !important;
-        font-size: 1.1rem !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4) !important;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6) !important;
-        background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-    }
-    
-    /* Tab styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2rem;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        padding: 1rem 2rem;
-        font-weight: bold;
-        font-size: 1.1rem;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-    }
-    
-    /* Results section styling */
-    .results-section {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 2rem;
-        margin: 1rem 0;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Severity and urgency indicators */
-    .severity-high {
-        color: #e74c3c;
-        font-weight: bold;
-        font-size: 1.3rem;
-    }
-    
-    .severity-moderate {
-        color: #f39c12;
-        font-weight: bold;
-        font-size: 1.3rem;
-    }
-    
-    .severity-low {
-        color: #27ae60;
-        font-weight: bold;
-        font-size: 1.3rem;
-    }
-    
-    /* Loading animation */
-    .loading-spinner {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: #fff;
-        animation: spin 1s ease-in-out infinite;
-    }
-    
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    
-    /* Hide default sidebar */
+    /* Hide sidebar */
     section[data-testid="stSidebar"] {
         display: none;
     }
     
-    /* Full width layout */
-    .main .block-container {
-        max-width: 100%;
-        padding: 1rem 2rem;
+    /* Header styling */
+    .app-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
     }
     
-    /* Improve label visibility */
-    label, .stSelectbox label, .stTextArea label, .stTextInput label {
+    .app-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #ffffff !important;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .app-subtitle {
+        font-size: 1.3rem;
+        color: #f0f0f0 !important;
+        font-weight: 400;
+    }
+    
+    /* Solid input sections - NO transparency */
+    .input-section {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 2px solid #e0e0e0;
+    }
+    
+    .input-section h2, .input-section h3 {
+        color: #1a1a1a !important;
+        text-shadow: none !important;
+        margin-bottom: 1rem;
+    }
+    
+    .input-section p, .input-section span, .input-section div, .input-section label {
+        color: #2d3748 !important;
+        text-shadow: none !important;
+    }
+    
+    /* Image upload section - solid background */
+    .image-upload-section {
+        background: #f7fafc;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        border: 3px dashed #4299e1;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image-upload-section:hover {
+        border-color: #3182ce;
+        background: #edf2f7;
+    }
+    
+    .image-upload-section h3 {
+        color: #2d3748 !important;
+        text-shadow: none !important;
+    }
+    
+    /* Results card - solid white background */
+    .medical-card {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 2.5rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        border: 2px solid #e2e8f0;
+    }
+    
+    .medical-card h1, .medical-card h2, .medical-card h3, .medical-card h4 {
+        color: #1a202c !important;
+        text-shadow: none !important;
+        margin-bottom: 1rem;
+    }
+    
+    .medical-card p, .medical-card span, .medical-card div, .medical-card li {
+        color: #2d3748 !important;
+        text-shadow: none !important;
+        line-height: 1.8;
+    }
+    
+    /* Prediction container - solid gradient */
+    .prediction-container {
+        text-align: center;
+        padding: 3rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        margin: 2rem 0;
+        box-shadow: 0 15px 50px rgba(102, 126, 234, 0.5);
+    }
+    
+    .prediction-disease {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #ffffff !important;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .prediction-confidence {
+        font-size: 1.5rem;
+        color: #ffffff !important;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+    
+    /* Confidence bar */
+    .confidence-bar {
+        width: 100%;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 1.5rem 0;
+    }
+    
+    .confidence-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #10b981, #34d399);
+        border-radius: 15px;
+        transition: width 1s ease;
+    }
+    
+    /* Button styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 2.5rem !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+        width: 100% !important;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6) !important;
+    }
+    
+    /* Labels - white text on dark background */
+    label {
         color: #ffffff !important;
         font-weight: 600 !important;
-        font-size: 1.1rem !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        font-size: 1.05rem !important;
+        margin-bottom: 0.5rem !important;
+        display: block !important;
     }
     
-    /* Improve input fields */
+    /* Input fields - solid white background */
     .stTextArea textarea, .stTextInput input, .stSelectbox select {
-        background: rgba(255, 255, 255, 0.95) !important;
-        border: 2px solid rgba(255, 255, 255, 0.5) !important;
+        background: #ffffff !important;
+        border: 2px solid #cbd5e0 !important;
         border-radius: 10px !important;
-        color: #1a1a1a !important;
+        color: #1a202c !important;
         font-size: 1rem !important;
+        padding: 0.75rem !important;
+    }
+    
+    .stTextArea textarea:focus, .stTextInput input:focus, .stSelectbox select:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+    }
+    
+    /* Checkbox styling */
+    .stCheckbox {
+        background: #ffffff;
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+    }
+    
+    .stCheckbox label {
+        color: #2d3748 !important;
+        font-weight: 500 !important;
     }
     
     /* Expander styling */
     .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.2) !important;
+        background: #ffffff !important;
         border-radius: 10px !important;
-        color: #ffffff !important;
+        color: #1a202c !important;
         font-weight: 600 !important;
+        padding: 1rem !important;
+        border: 2px solid #e2e8f0 !important;
     }
     
-    /* Success/Info/Warning messages */
-    .stSuccess, .stInfo, .stWarning {
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 10px !important;
+    .streamlit-expanderContent {
+        background: #f7fafc !important;
+        border-radius: 0 0 10px 10px !important;
         padding: 1rem !important;
     }
     
-    /* Tab content area */
-    .stTabs [data-baseweb="tab-panel"] {
-        padding-top: 2rem;
+    /* Success/Info/Warning messages */
+    .stSuccess {
+        background: #d4edda !important;
+        color: #155724 !important;
+        border: 1px solid #c3e6cb !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
     }
     
-    /* Checkbox styling */
-    .stCheckbox label {
-        color: #ffffff !important;
-        font-weight: 500 !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    .stInfo {
+        background: #d1ecf1 !important;
+        color: #0c5460 !important;
+        border: 1px solid #bee5eb !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+    }
+    
+    .stWarning {
+        background: #fff3cd !important;
+        color: #856404 !important;
+        border: 1px solid #ffeaa7 !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+    }
+    
+    /* Severity indicators */
+    .severity-high {
+        color: #dc2626 !important;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+    
+    .severity-moderate {
+        color: #f59e0b !important;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+    
+    .severity-low {
+        color: #10b981 !important;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+    
+    /* File uploader */
+    .stFileUploader {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border: 2px dashed #cbd5e0;
+    }
+    
+    .stFileUploader label {
+        color: #2d3748 !important;
+    }
+    
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 1rem;
+        background: transparent;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        color: #4a5568;
+        border: 2px solid #e2e8f0;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+        border-color: transparent;
     }
     
     /* Download button */
     .stDownloadButton > button {
         background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
         color: white !important;
-        border-radius: 20px !important;
-        padding: 0.6rem 2rem !important;
+        border-radius: 10px !important;
+        padding: 0.6rem 1.5rem !important;
         font-weight: 600 !important;
-        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4) !important;
     }
     
-    .stDownloadButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6) !important;
+    /* Animation */
+    @keyframes spin {
+        to { transform: rotate(360deg); }
     }
     </style>
     """, unsafe_allow_html=True)
