@@ -28,9 +28,9 @@ def load_advanced_css():
     """Load professional medical UI with excellent readability."""
     st.markdown("""
     <style>
-    /* Professional Medical Theme */
+    /* Professional Medical Theme - Light Background */
     .stApp {
-        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #cbd5e0 100%);
     }
     
     /* Main container */
@@ -192,9 +192,9 @@ def load_advanced_css():
         box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6) !important;
     }
     
-    /* Labels - white text on dark background */
+    /* Labels - dark text on light background */
     label {
-        color: #ffffff !important;
+        color: #1a202c !important;
         font-weight: 600 !important;
         font-size: 1.05rem !important;
         margin-bottom: 0.5rem !important;
@@ -222,11 +222,17 @@ def load_advanced_css():
         padding: 0.75rem;
         border-radius: 8px;
         margin: 0.5rem 0;
+        border: 1px solid #e2e8f0;
     }
     
     .stCheckbox label {
-        color: #2d3748 !important;
-        font-weight: 500 !important;
+        color: #1a202c !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+    }
+    
+    .stCheckbox label span {
+        color: #1a202c !important;
     }
     
     /* Expander styling */
@@ -239,10 +245,19 @@ def load_advanced_css():
         border: 2px solid #e2e8f0 !important;
     }
     
+    .streamlit-expanderHeader p {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
     .streamlit-expanderContent {
         background: #f7fafc !important;
         border-radius: 0 0 10px 10px !important;
         padding: 1rem !important;
+    }
+    
+    .streamlit-expanderContent p, .streamlit-expanderContent div {
+        color: #2d3748 !important;
     }
     
     /* Success/Info/Warning messages */
@@ -298,7 +313,16 @@ def load_advanced_css():
     }
     
     .stFileUploader label {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
+    .stFileUploader div {
         color: #2d3748 !important;
+    }
+    
+    .stFileUploader small {
+        color: #4a5568 !important;
     }
     
     /* Tabs */
@@ -334,6 +358,58 @@ def load_advanced_css():
     /* Animation */
     @keyframes spin {
         to { transform: rotate(360deg); }
+    }
+    
+    /* Global text visibility fixes */
+    p, span, div, li, td, th {
+        color: #2d3748 !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        color: #1a202c !important;
+    }
+    
+    /* Selectbox styling */
+    .stSelectbox > div > div {
+        background: #ffffff !important;
+        color: #1a202c !important;
+    }
+    
+    .stSelectbox label {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Text area label */
+    .stTextArea label {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Text input label */
+    .stTextInput label {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Spinner text */
+    .stSpinner > div {
+        color: #1a202c !important;
+    }
+    
+    /* Progress bar text */
+    .stProgress > div > div {
+        color: #1a202c !important;
+    }
+    
+    /* All markdown content */
+    .markdown-text-container {
+        color: #2d3748 !important;
+    }
+    
+    /* Ensure white cards have dark text */
+    .element-container {
+        color: #2d3748 !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -380,6 +456,7 @@ def create_enhanced_input_section():
     create_enhanced_image_upload_section()
     
     # Analysis options
+    st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown("### 🔧 Advanced Analysis Options")
     col1, col2, col3 = st.columns(3)
     
@@ -389,6 +466,7 @@ def create_enhanced_input_section():
         detailed_analysis = st.checkbox("Detailed Medical Analysis", value=True)
     with col3:
         generate_report = st.checkbox("Generate Medical Report", value=True)
+    st.markdown('</div>', unsafe_allow_html=True)
     
     # Analysis button
     col1, col2, col3 = st.columns([1, 2, 1])
