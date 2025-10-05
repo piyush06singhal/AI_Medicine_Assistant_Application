@@ -1,29 +1,26 @@
 """
 Advanced AI Medical Assistant - Real AI-Powered Medical Analysis
-Using OpenAI GPT-4 for accurate medical insights
+Using Google Gemini AI for accurate medical insights
 """
 
 import streamlit as st
 from datetime import datetime
 from PIL import Image
 import io
-import base64
 
-# Try to import OpenAI
+# Try to import Google Gemini
 try:
-    from openai import OpenAI
-    OPENAI_AVAILABLE = True
+    import google.generativeai as genai
+    GEMINI_AVAILABLE = True
 except ImportError:
-    OPENAI_AVAILABLE = False
+    GEMINI_AVAILABLE = False
 
-# API Key from Streamlit secrets
-import os
+# Hardcoded API Key
+GEMINI_API_KEY = "AIzaSyD6HMYeylRgqmUER5mbeBHKjnfapDOX-ho"
 
-# Try to get API key from secrets or environment
-try:
-    OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-except:
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+# Configure Gemini
+if GEMINI_AVAILABLE:
+    genai.configure(api_key=GEMINI_API_KEY)
 
 # Page configuration
 st.set_page_config(
@@ -241,20 +238,14 @@ def create_header():
     st.markdown("""
     <div class="app-header">
         <h1 class="app-title">🏥 Advanced AI Medical Assistant</h1>
-        <p class="app-subtitle">Real AI-powered medical analysis using OpenAI GPT-4</p>
+        <p class="app-subtitle">Real AI-powered medical analysis using Google Gemini</p>
     </div>
     """, unsafe_allow_html=True)
 
-def encode_image(image):
-    """Encode image to base64."""
-    buffered = io.BytesIO()
-    image.save(buffered, format="PNG")
-    return base64.b64encode(buffered.getvalue()).decode('utf-8')
-
 def get_ai_text_analysis(symptoms, language):
-    """Get real AI analysis using OpenAI for text symptoms."""
+    """Get real AI analysis using Google Gemini for text symptoms."""
     try:
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
         
         prompt = f"""You are an expert medical AI assistant. Analyze the following symptoms and provide a comprehensive medical assessment in {language}.
 
@@ -271,28 +262,16 @@ Important: This is for informational purposes only and should not replace profes
 
 Format your response clearly with sections and use proper formatting."""
         
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are an expert medical AI assistant providing comprehensive medical analysis."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            max_tokens=2000
-        )
-        
-        return response.choices[0].message.content
+        response = model.generate_content(prompt)
+        return response.text
     
     except Exception as e:
         return f"Error: {str(e)}"
 
 def get_ai_image_analysis(image, additional_info=""):
-    """Get real AI analysis using OpenAI Vision for medical images."""
+    """Get real AI analysis using Google Gemini Vision for medical images."""
     try:
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        
-        # Encode image to base64
-        base64_image = encode_image(image)
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
         
         prompt = f"""You are an expert medical AI assistant specializing in medical image analysis. Analyze this medical image carefully.
 
@@ -309,26 +288,8 @@ Important: This is for informational purposes only and should not replace profes
 
 Format your response clearly with sections."""
         
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/png;base64,{base64_image}"
-                            }
-                        }
-                    ]
-                }
-            ],
-            max_tokens=2000
-        )
-        
-        return response.choices[0].message.content
+        response = model.generate_content([prompt, image])
+        return response.text
     
     except Exception as e:
         return f"Error: {str(e)}"
@@ -338,13 +299,8 @@ def main():
     load_advanced_css()
     create_header()
     
-    if not OPENAI_AVAILABLE:
-        st.error("❌ OpenAI library not installed. Please install it with: pip install openai")
-        return
-    
-    if not OPENAI_API_KEY:
-        st.error("❌ OpenAI API key not found. Please add it to .streamlit/secrets.toml")
-        st.info("💡 Create a file .streamlit/secrets.toml and add: OPENAI_API_KEY = 'your-key-here'")
+    if not GEMINI_AVAILABLE:
+        st.error("❌ Google Gemini library not installed. Please install it with: pip install google-generativeai")
         return
     
     # Main input section
