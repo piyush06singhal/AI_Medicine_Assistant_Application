@@ -18,7 +18,12 @@ except ImportError:
 
 # API Key from Streamlit secrets
 import os
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
+
+# Try to get API key from secrets or environment
+try:
+    OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+except:
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 # Page configuration
 st.set_page_config(
