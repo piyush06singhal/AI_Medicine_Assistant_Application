@@ -4,9 +4,9 @@ Using Google Gemini AI for accurate medical insights
 """
 
 import streamlit as st
-import os
 from datetime import datetime
-import time
+from PIL import Image
+import io
 
 # Try to import Google Gemini
 try:
@@ -14,6 +14,9 @@ try:
     GEMINI_AVAILABLE = True
 except ImportError:
     GEMINI_AVAILABLE = False
+
+# Hardcoded API Key
+GEMINI_API_KEY = "AIzaSyD6HMYeylRgqmUER5mbeBHKjnfapDOX-ho"
 
 # Page configuration
 st.set_page_config(
@@ -145,6 +148,19 @@ def load_advanced_css():
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
     }
     
+    /* File uploader */
+    .stFileUploader {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border: 2px dashed #cbd5e0;
+    }
+    
+    .stFileUploader label {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
     /* Success/Info/Warning messages */
     .stSuccess {
         background: #d4edda !important;
@@ -222,13 +238,13 @@ def create_header():
     </div>
     """, unsafe_allow_html=True)
 
-def get_ai_analysis(symptoms, api_key):
-    """Get real AI analysis using Google Gemini."""
+def get_ai_text_analysis(symptoms, language):
+    """Get real AI analysis using Google Gemini for text symptoms."""
     try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-pro')
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
-        prompt = f"""You are an expert medical AI assistant. Analyze the following symptoms and provide a comprehensive medical assessment.
+        prompt = f"""You are an expert medical AI assistant. Analyze the following symptoms and provide a comprehensive medical assessment in {language}.
 
 Symptoms: {symptoms}
 
@@ -241,9 +257,36 @@ Please provide:
 
 Important: This is for informational purposes only and should not replace professional medical advice. Always recommend consulting with a healthcare provider.
 
-Format your response clearly with sections."""
+Format your response clearly with sections and use proper formatting."""
         
         response = model.generate_content(prompt)
+        return response.text
+    
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+def get_ai_image_analysis(image, additional_info=""):
+    """Get real AI analysis using Google Gemini Vision for medical images."""
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        prompt = f"""You are an expert medical AI assistant specializing in medical image analysis. Analyze this medical image carefully.
+
+{f"Additional Information: {additional_info}" if additional_info else ""}
+
+Please provide:
+1. What you observe in the image (describe any visible conditions, abnormalities, or patterns)
+2. Possible medical conditions based on the visual analysis
+3. Recommended precautions and next steps
+4. When to seek immediate medical attention
+5. Important considerations for this type of condition
+
+Important: This is for informational purposes only and should not replace professional medical diagnosis. Always recommend consulting with a qualified healthcare provider or specialist for proper diagnosis and treatment.
+
+Format your response clearly with sections."""
+        
+        response = model.generate_content([prompt, image])
         return response.text
     
     except Exception as e:
@@ -254,31 +297,8 @@ def main():
     load_advanced_css()
     create_header()
     
-    # Check for API key in environment or session
-    api_key = os.getenv('GEMINI_API_KEY') or st.session_state.get('gemini_api_key', '')
-    
-    # API Key input if not set
-    if not api_key:
-        st.markdown('<div class="input-section">', unsafe_allow_html=True)
-        st.markdown('<h2>🔑 API Configuration Required</h2>', unsafe_allow_html=True)
-        st.info("To use real AI analysis, please enter your Google Gemini API key. Get one free at: https://aistudio.google.com/app/apikey")
-        
-        api_key_input = st.text_input(
-            "Enter your Google Gemini API Key:",
-            type="password",
-            help="Your API key is stored only for this session and never saved"
-        )
-        
-        if api_key_input:
-            st.session_state.gemini_api_key = api_key_input
-            api_key = api_key_input
-            st.success("✅ API Key configured! You can now use AI analysis.")
-            st.rerun()
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Show disclaimer
-        st.warning("⚠️ **Medical Disclaimer**: This tool provides AI-generated information for educational purposes only. It should NOT be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.")
+    if not GEMINI_AVAILABLE:
+        st.error("❌ Google Gemini library not installed. Please install it with: pip install google-generativeai")
         return
     
     # Main input section
@@ -295,10 +315,35 @@ def main():
     # Symptoms input
     symptoms = st.text_area(
         "Describe your symptoms in detail:",
-        height=200,
+        height=150,
         placeholder="Please provide detailed information about your symptoms, including:\n• Duration of symptoms\n• Severity (1-10 scale)\n• Associated symptoms\n• Any triggers or patterns\n• Previous medical history related to these symptoms",
         help="Be as detailed as possible for better AI analysis"
     )
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Image upload section
+    st.markdown('<div class="input-section">', unsafe_allow_html=True)
+    st.markdown('<h2>📸 Upload Medical Image (Optional)</h2>', unsafe_allow_html=True)
+    st.info("Upload medical images like X-rays, MRI scans, CT scans, skin conditions, rashes, or any other medical images for AI analysis.")
+    
+    uploaded_file = st.file_uploader(
+        "Choose a medical image:",
+        type=['png', 'jpg', 'jpeg'],
+        help="Upload medical images for AI-powered visual analysis"
+    )
+    
+    if uploaded_file is not None:
+        # Display the uploaded image
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Medical Image", use_container_width=True)
+        
+        # Additional info for image
+        additional_info = st.text_input(
+            "Additional information about the image (optional):",
+            placeholder="E.g., Location on body, duration, any pain or symptoms related to this image",
+            help="Provide context to help AI analyze the image better"
+        )
+    
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Analysis button
@@ -316,35 +361,45 @@ def main():
     
     # Process analysis
     if analyze_button:
-        if not symptoms or not symptoms.strip():
-            st.error("❌ Please enter your symptoms before analysis.")
+        has_symptoms = symptoms and symptoms.strip()
+        has_image = uploaded_file is not None
+        
+        if not has_symptoms and not has_image:
+            st.error("❌ Please enter your symptoms or upload a medical image before analysis.")
             return
         
         st.markdown('<div class="medical-card">', unsafe_allow_html=True)
         st.markdown('<h2>🔍 AI Analysis Results</h2>', unsafe_allow_html=True)
         
-        with st.spinner("🤖 AI is analyzing your symptoms... This may take a few moments."):
-            if not GEMINI_AVAILABLE:
-                st.error("❌ Google Gemini library not installed. Please install it with: pip install google-generativeai")
-                st.markdown('</div>', unsafe_allow_html=True)
-                return
-            
-            analysis = get_ai_analysis(symptoms, api_key)
-            
-            if analysis.startswith("Error:"):
-                st.error(f"❌ {analysis}")
-                st.info("💡 Please check your API key and try again. Make sure you have a valid Google Gemini API key.")
-            else:
-                st.markdown(f"""
-                <div style='background: #f7fafc; padding: 2rem; border-radius: 10px; border-left: 4px solid #667eea;'>
-                    {analysis.replace(chr(10), '<br>')}
-                </div>
-                """, unsafe_allow_html=True)
+        # Analyze text symptoms
+        if has_symptoms:
+            with st.spinner("🤖 AI is analyzing your symptoms... This may take a few moments."):
+                analysis = get_ai_text_analysis(symptoms, language)
                 
-                st.success("✅ Analysis completed successfully!")
+                if analysis.startswith("Error:"):
+                    st.error(f"❌ {analysis}")
+                else:
+                    st.markdown("### 📋 Symptom Analysis")
+                    st.markdown(analysis)
+                    st.success("✅ Symptom analysis completed!")
+        
+        # Analyze image
+        if has_image:
+            with st.spinner("🤖 AI is analyzing your medical image... This may take a few moments."):
+                image = Image.open(uploaded_file)
+                additional_context = additional_info if 'additional_info' in locals() else ""
+                image_analysis = get_ai_image_analysis(image, additional_context)
                 
-                # Add timestamp
-                st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
+                if image_analysis.startswith("Error:"):
+                    st.error(f"❌ {image_analysis}")
+                else:
+                    st.markdown("---")
+                    st.markdown("### 🖼️ Medical Image Analysis")
+                    st.markdown(image_analysis)
+                    st.success("✅ Image analysis completed!")
+        
+        # Add timestamp
+        st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem; margin-top: 2rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
 
