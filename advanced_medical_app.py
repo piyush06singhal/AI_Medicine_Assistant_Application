@@ -242,7 +242,6 @@ def get_ai_text_analysis(symptoms, language):
     """Get real AI analysis using Google Gemini for text symptoms."""
     try:
         genai.configure(api_key=GEMINI_API_KEY)
-        model = genai.GenerativeModel('gemini-pro')
         
         prompt = f"""You are an expert medical AI assistant. Analyze the following symptoms and provide a comprehensive medical assessment in {language}.
 
@@ -259,6 +258,7 @@ Important: This is for informational purposes only and should not replace profes
 
 Format your response clearly with sections and use proper formatting."""
         
+        model = genai.GenerativeModel('models/gemini-1.5-pro')
         response = model.generate_content(prompt)
         return response.text
     
@@ -269,7 +269,6 @@ def get_ai_image_analysis(image, additional_info=""):
     """Get real AI analysis using Google Gemini Vision for medical images."""
     try:
         genai.configure(api_key=GEMINI_API_KEY)
-        model = genai.GenerativeModel('gemini-pro-vision')
         
         prompt = f"""You are an expert medical AI assistant specializing in medical image analysis. Analyze this medical image carefully.
 
@@ -286,6 +285,7 @@ Important: This is for informational purposes only and should not replace profes
 
 Format your response clearly with sections."""
         
+        model = genai.GenerativeModel('models/gemini-1.5-pro')
         response = model.generate_content([prompt, image])
         return response.text
     
