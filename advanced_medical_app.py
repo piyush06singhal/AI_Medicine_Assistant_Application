@@ -284,6 +284,511 @@ MEDICAL_DATABASE = {
         'when_to_see_doctor': 'Seek emergency care if you experience difficulty breathing, swelling of face/throat, or signs of anaphylaxis.',
         'severity': 'Low to Moderate',
         'confidence': 0.80
+    },
+    'bronchitis': {
+        'keywords': ['bronchitis', 'chest congestion', 'mucus', 'persistent cough', 'wheezing', 'chest discomfort', 'phlegm'],
+        'description': 'Bronchitis is inflammation of the bronchial tubes that carry air to your lungs.',
+        'symptoms': [
+            'Persistent cough with mucus',
+            'Chest discomfort',
+            'Fatigue',
+            'Shortness of breath',
+            'Slight fever and chills',
+            'Wheezing'
+        ],
+        'precautions': [
+            'Get plenty of rest',
+            'Drink lots of fluids',
+            'Use a humidifier',
+            'Avoid lung irritants',
+            'Take cough medicine if needed',
+            'Quit smoking'
+        ],
+        'when_to_see_doctor': 'See a doctor if cough lasts more than 3 weeks, prevents sleep, or you cough up blood.',
+        'severity': 'Moderate',
+        'confidence': 0.79
+    },
+    'gastritis': {
+        'keywords': ['gastritis', 'stomach pain', 'indigestion', 'nausea', 'vomiting', 'bloating', 'burning stomach', 'upper abdominal pain'],
+        'description': 'Gastritis is inflammation of the stomach lining.',
+        'symptoms': [
+            'Burning or gnawing pain in upper abdomen',
+            'Nausea and vomiting',
+            'Feeling of fullness',
+            'Loss of appetite',
+            'Bloating',
+            'Hiccups'
+        ],
+        'precautions': [
+            'Eat smaller, more frequent meals',
+            'Avoid spicy and acidic foods',
+            'Limit alcohol consumption',
+            'Manage stress',
+            'Avoid NSAIDs (like ibuprofen)',
+            'Take antacids as needed'
+        ],
+        'when_to_see_doctor': 'Seek care if you vomit blood, have black stools, or severe abdominal pain.',
+        'severity': 'Moderate',
+        'confidence': 0.76
+    },
+    'arthritis': {
+        'keywords': ['arthritis', 'joint pain', 'stiffness', 'swelling', 'inflammation', 'joint stiffness', 'rheumatoid', 'osteoarthritis'],
+        'description': 'Arthritis is inflammation of one or more joints causing pain and stiffness.',
+        'symptoms': [
+            'Joint pain and tenderness',
+            'Stiffness (especially in morning)',
+            'Swelling around joints',
+            'Reduced range of motion',
+            'Redness and warmth',
+            'Fatigue'
+        ],
+        'precautions': [
+            'Maintain healthy weight',
+            'Exercise regularly (low-impact)',
+            'Apply hot or cold therapy',
+            'Take anti-inflammatory medications',
+            'Use assistive devices if needed',
+            'Physical therapy',
+            'Protect joints from overuse'
+        ],
+        'when_to_see_doctor': 'See a doctor if joint pain is severe, sudden, or accompanied by fever.',
+        'severity': 'Moderate to High',
+        'confidence': 0.81
+    },
+    'uti': {
+        'keywords': ['uti', 'urinary tract infection', 'burning urination', 'frequent urination', 'bladder infection', 'painful urination', 'pelvic pain'],
+        'description': 'UTI is an infection in any part of the urinary system.',
+        'symptoms': [
+            'Strong, persistent urge to urinate',
+            'Burning sensation when urinating',
+            'Frequent, small amounts of urine',
+            'Cloudy or strong-smelling urine',
+            'Pelvic pain',
+            'Blood in urine'
+        ],
+        'precautions': [
+            'Drink plenty of water',
+            'Urinate frequently',
+            'Wipe front to back',
+            'Empty bladder after intercourse',
+            'Avoid irritating feminine products',
+            'Take prescribed antibiotics completely'
+        ],
+        'when_to_see_doctor': 'See a doctor if you have fever, back pain, nausea, or symptoms persist.',
+        'severity': 'Moderate',
+        'confidence': 0.84
+    },
+    'sinusitis': {
+        'keywords': ['sinusitis', 'sinus infection', 'facial pain', 'nasal congestion', 'thick nasal discharge', 'sinus pressure', 'postnasal drip'],
+        'description': 'Sinusitis is inflammation or swelling of the tissue lining the sinuses.',
+        'symptoms': [
+            'Facial pain and pressure',
+            'Nasal congestion',
+            'Thick yellow or green discharge',
+            'Reduced sense of smell',
+            'Cough',
+            'Headache',
+            'Fatigue'
+        ],
+        'precautions': [
+            'Use saline nasal spray',
+            'Apply warm compresses',
+            'Stay hydrated',
+            'Use a humidifier',
+            'Avoid allergens and irritants',
+            'Take decongestants if needed'
+        ],
+        'when_to_see_doctor': 'See a doctor if symptoms last more than 10 days or worsen after initial improvement.',
+        'severity': 'Low to Moderate',
+        'confidence': 0.77
+    },
+    'eczema': {
+        'keywords': ['eczema', 'atopic dermatitis', 'itchy skin', 'dry skin', 'rash', 'red patches', 'skin inflammation'],
+        'description': 'Eczema is a condition that makes skin red, inflamed, and itchy.',
+        'symptoms': [
+            'Dry, sensitive skin',
+            'Intense itching',
+            'Red or brownish patches',
+            'Small, raised bumps',
+            'Thickened, cracked skin',
+            'Raw, swollen skin from scratching'
+        ],
+        'precautions': [
+            'Moisturize skin regularly',
+            'Avoid harsh soaps and detergents',
+            'Take lukewarm baths',
+            'Use gentle, fragrance-free products',
+            'Avoid scratching',
+            'Identify and avoid triggers',
+            'Use prescribed topical medications'
+        ],
+        'when_to_see_doctor': 'See a doctor if eczema interferes with sleep, shows signs of infection, or doesn\'t improve.',
+        'severity': 'Low to Moderate',
+        'confidence': 0.73
+    },
+    'gerd': {
+        'keywords': ['gerd', 'acid reflux', 'heartburn', 'chest burning', 'regurgitation', 'sour taste', 'difficulty swallowing'],
+        'description': 'GERD is a chronic condition where stomach acid flows back into the esophagus.',
+        'symptoms': [
+            'Burning sensation in chest (heartburn)',
+            'Regurgitation of food or sour liquid',
+            'Difficulty swallowing',
+            'Chest pain',
+            'Chronic cough',
+            'Sore throat',
+            'Feeling of lump in throat'
+        ],
+        'precautions': [
+            'Avoid trigger foods (spicy, fatty, acidic)',
+            'Eat smaller meals',
+            'Don\'t lie down after eating',
+            'Elevate head of bed',
+            'Maintain healthy weight',
+            'Quit smoking',
+            'Take antacids or prescribed medications'
+        ],
+        'when_to_see_doctor': 'Seek care if you have severe chest pain, difficulty swallowing, or persistent vomiting.',
+        'severity': 'Moderate',
+        'confidence': 0.80
+    },
+    'thyroid_disorder': {
+        'keywords': ['thyroid', 'hypothyroid', 'hyperthyroid', 'weight changes', 'fatigue', 'metabolism', 'goiter', 'thyroid gland'],
+        'description': 'Thyroid disorders affect the thyroid gland which regulates metabolism.',
+        'symptoms': [
+            'Unexplained weight changes',
+            'Fatigue or nervousness',
+            'Changes in heart rate',
+            'Sensitivity to temperature',
+            'Changes in bowel patterns',
+            'Muscle weakness',
+            'Mood changes'
+        ],
+        'precautions': [
+            'Take thyroid medication as prescribed',
+            'Get regular blood tests',
+            'Maintain balanced diet',
+            'Manage stress',
+            'Get adequate sleep',
+            'Exercise regularly'
+        ],
+        'when_to_see_doctor': 'See a doctor if you notice persistent symptoms or rapid heart rate.',
+        'severity': 'Moderate to High',
+        'confidence': 0.78
+    },
+    'anemia': {
+        'keywords': ['anemia', 'fatigue', 'weakness', 'pale skin', 'shortness of breath', 'dizziness', 'cold hands', 'iron deficiency'],
+        'description': 'Anemia is a condition where you lack enough healthy red blood cells.',
+        'symptoms': [
+            'Fatigue and weakness',
+            'Pale or yellowish skin',
+            'Shortness of breath',
+            'Dizziness or lightheadedness',
+            'Cold hands and feet',
+            'Chest pain',
+            'Headaches'
+        ],
+        'precautions': [
+            'Eat iron-rich foods',
+            'Take iron supplements if prescribed',
+            'Consume vitamin C to aid iron absorption',
+            'Treat underlying causes',
+            'Get regular blood tests',
+            'Avoid excessive tea and coffee'
+        ],
+        'when_to_see_doctor': 'See a doctor if you have persistent fatigue, rapid heartbeat, or pale skin.',
+        'severity': 'Moderate',
+        'confidence': 0.79
+    },
+    'insomnia': {
+        'keywords': ['insomnia', 'sleep problems', 'can\'t sleep', 'difficulty sleeping', 'sleeplessness', 'trouble falling asleep', 'waking up'],
+        'description': 'Insomnia is a sleep disorder that makes it hard to fall or stay asleep.',
+        'symptoms': [
+            'Difficulty falling asleep',
+            'Waking up during the night',
+            'Waking up too early',
+            'Daytime tiredness',
+            'Irritability or depression',
+            'Difficulty concentrating',
+            'Increased errors or accidents'
+        ],
+        'precautions': [
+            'Stick to a sleep schedule',
+            'Create a restful environment',
+            'Limit daytime naps',
+            'Exercise regularly',
+            'Avoid caffeine and alcohol before bed',
+            'Manage stress and worries',
+            'Avoid screens before bedtime'
+        ],
+        'when_to_see_doctor': 'See a doctor if insomnia persists for more than a few weeks or affects daily life.',
+        'severity': 'Low to Moderate',
+        'confidence': 0.74
+    },
+    'constipation': {
+        'keywords': ['constipation', 'bowel movement', 'hard stools', 'difficulty passing stool', 'bloating', 'abdominal discomfort'],
+        'description': 'Constipation is infrequent bowel movements or difficulty passing stools.',
+        'symptoms': [
+            'Fewer than three bowel movements per week',
+            'Hard or lumpy stools',
+            'Straining during bowel movements',
+            'Feeling of incomplete evacuation',
+            'Abdominal bloating',
+            'Abdominal pain'
+        ],
+        'precautions': [
+            'Increase fiber intake',
+            'Drink plenty of water',
+            'Exercise regularly',
+            'Don\'t ignore urge to have bowel movement',
+            'Establish regular bathroom routine',
+            'Consider fiber supplements or laxatives if needed'
+        ],
+        'when_to_see_doctor': 'See a doctor if constipation is severe, lasts more than 3 weeks, or you have blood in stool.',
+        'severity': 'Low',
+        'confidence': 0.82
+    },
+    'diarrhea': {
+        'keywords': ['diarrhea', 'loose stools', 'watery stools', 'frequent bowel movements', 'stomach cramps', 'dehydration'],
+        'description': 'Diarrhea is loose, watery stools occurring more frequently than normal.',
+        'symptoms': [
+            'Loose, watery stools',
+            'Abdominal cramps',
+            'Abdominal pain',
+            'Fever',
+            'Bloating',
+            'Nausea',
+            'Urgent need to have bowel movement'
+        ],
+        'precautions': [
+            'Stay hydrated with water and electrolytes',
+            'Eat bland foods (BRAT diet)',
+            'Avoid dairy, fatty, and spicy foods',
+            'Rest',
+            'Take anti-diarrheal medication if needed',
+            'Practice good hand hygiene'
+        ],
+        'when_to_see_doctor': 'Seek care if diarrhea lasts more than 2 days, you have severe pain, or signs of dehydration.',
+        'severity': 'Low to Moderate',
+        'confidence': 0.83
+    },
+    'chickenpox': {
+        'keywords': ['chickenpox', 'varicella', 'itchy rash', 'blisters', 'fever', 'spots', 'pox'],
+        'description': 'Chickenpox is a highly contagious viral infection causing an itchy rash.',
+        'symptoms': [
+            'Itchy rash with red spots',
+            'Fluid-filled blisters',
+            'Fever',
+            'Fatigue',
+            'Loss of appetite',
+            'Headache'
+        ],
+        'precautions': [
+            'Isolate to prevent spread',
+            'Apply calamine lotion for itching',
+            'Take lukewarm baths with oatmeal',
+            'Avoid scratching',
+            'Take fever reducers (avoid aspirin)',
+            'Stay hydrated',
+            'Get vaccinated for prevention'
+        ],
+        'when_to_see_doctor': 'See a doctor if you have difficulty breathing, severe headache, or rash spreads to eyes.',
+        'severity': 'Moderate',
+        'confidence': 0.86
+    },
+    'measles': {
+        'keywords': ['measles', 'rash', 'fever', 'cough', 'runny nose', 'red eyes', 'koplik spots'],
+        'description': 'Measles is a highly contagious viral infection.',
+        'symptoms': [
+            'High fever',
+            'Cough',
+            'Runny nose',
+            'Red, watery eyes',
+            'Tiny white spots in mouth',
+            'Red rash that spreads'
+        ],
+        'precautions': [
+            'Get MMR vaccine',
+            'Isolate to prevent spread',
+            'Rest and stay hydrated',
+            'Take fever reducers',
+            'Avoid bright lights if eyes are sensitive',
+            'Boost immune system with vitamin A'
+        ],
+        'when_to_see_doctor': 'Seek immediate care for difficulty breathing, severe headache, or confusion.',
+        'severity': 'High',
+        'confidence': 0.85
+    },
+    'mumps': {
+        'keywords': ['mumps', 'swollen glands', 'parotid glands', 'jaw pain', 'fever', 'swollen cheeks'],
+        'description': 'Mumps is a viral infection affecting the salivary glands.',
+        'symptoms': [
+            'Swollen, painful salivary glands',
+            'Fever',
+            'Headache',
+            'Muscle aches',
+            'Fatigue',
+            'Loss of appetite',
+            'Pain while chewing or swallowing'
+        ],
+        'precautions': [
+            'Get MMR vaccine',
+            'Rest and isolate',
+            'Apply warm or cold compresses',
+            'Eat soft foods',
+            'Stay hydrated',
+            'Take pain relievers'
+        ],
+        'when_to_see_doctor': 'See a doctor if you have severe headache, stiff neck, or testicular pain.',
+        'severity': 'Moderate',
+        'confidence': 0.82
+    },
+    'dengue': {
+        'keywords': ['dengue', 'dengue fever', 'high fever', 'severe headache', 'pain behind eyes', 'joint pain', 'rash', 'mosquito'],
+        'description': 'Dengue is a mosquito-borne viral infection.',
+        'symptoms': [
+            'High fever',
+            'Severe headache',
+            'Pain behind the eyes',
+            'Joint and muscle pain',
+            'Nausea and vomiting',
+            'Skin rash',
+            'Mild bleeding'
+        ],
+        'precautions': [
+            'Rest and stay hydrated',
+            'Take acetaminophen for fever (avoid aspirin)',
+            'Use mosquito repellent',
+            'Wear protective clothing',
+            'Eliminate standing water',
+            'Monitor for warning signs'
+        ],
+        'when_to_see_doctor': 'Seek emergency care for severe abdominal pain, persistent vomiting, or bleeding.',
+        'severity': 'High',
+        'confidence': 0.84
+    },
+    'malaria': {
+        'keywords': ['malaria', 'fever', 'chills', 'sweating', 'headache', 'mosquito', 'shivering', 'cyclical fever'],
+        'description': 'Malaria is a life-threatening disease transmitted by mosquitoes.',
+        'symptoms': [
+            'Cyclical fever and chills',
+            'Sweating',
+            'Headache',
+            'Nausea and vomiting',
+            'Muscle pain',
+            'Fatigue',
+            'Diarrhea'
+        ],
+        'precautions': [
+            'Take antimalarial medications as prescribed',
+            'Use mosquito nets',
+            'Apply insect repellent',
+            'Wear long sleeves and pants',
+            'Stay in screened areas',
+            'Seek immediate treatment'
+        ],
+        'when_to_see_doctor': 'Seek immediate medical care if you have fever after visiting malaria-endemic areas.',
+        'severity': 'High',
+        'confidence': 0.87
+    },
+    'tuberculosis': {
+        'keywords': ['tuberculosis', 'tb', 'persistent cough', 'coughing blood', 'chest pain', 'weight loss', 'night sweats', 'lung infection'],
+        'description': 'Tuberculosis is a bacterial infection that primarily affects the lungs.',
+        'symptoms': [
+            'Persistent cough (3+ weeks)',
+            'Coughing up blood',
+            'Chest pain',
+            'Unintentional weight loss',
+            'Fatigue',
+            'Fever and night sweats',
+            'Loss of appetite'
+        ],
+        'precautions': [
+            'Complete full course of antibiotics',
+            'Isolate during infectious period',
+            'Cover mouth when coughing',
+            'Ensure good ventilation',
+            'Get tested if exposed',
+            'Maintain good nutrition'
+        ],
+        'when_to_see_doctor': 'Seek immediate care if you cough up blood or have persistent cough with fever.',
+        'severity': 'High',
+        'confidence': 0.88
+    },
+    'covid19': {
+        'keywords': ['covid', 'coronavirus', 'covid-19', 'loss of taste', 'loss of smell', 'dry cough', 'fever', 'shortness of breath', 'pandemic'],
+        'description': 'COVID-19 is a contagious disease caused by the SARS-CoV-2 virus.',
+        'symptoms': [
+            'Fever or chills',
+            'Cough',
+            'Shortness of breath',
+            'Fatigue',
+            'Loss of taste or smell',
+            'Sore throat',
+            'Body aches',
+            'Headache'
+        ],
+        'precautions': [
+            'Get vaccinated and boosted',
+            'Wear masks in crowded places',
+            'Practice social distancing',
+            'Wash hands frequently',
+            'Isolate if positive',
+            'Monitor oxygen levels',
+            'Rest and stay hydrated'
+        ],
+        'when_to_see_doctor': 'Seek emergency care for difficulty breathing, chest pain, or bluish lips.',
+        'severity': 'Moderate to High',
+        'confidence': 0.89
+    },
+    'stroke': {
+        'keywords': ['stroke', 'facial drooping', 'arm weakness', 'speech difficulty', 'sudden numbness', 'confusion', 'severe headache'],
+        'description': 'A stroke occurs when blood supply to part of the brain is interrupted.',
+        'symptoms': [
+            'Sudden numbness or weakness (face, arm, leg)',
+            'Confusion or trouble speaking',
+            'Trouble seeing',
+            'Difficulty walking',
+            'Dizziness',
+            'Severe headache',
+            'Loss of balance'
+        ],
+        'precautions': [
+            'Call emergency services immediately (FAST: Face, Arms, Speech, Time)',
+            'Control blood pressure',
+            'Manage diabetes',
+            'Quit smoking',
+            'Exercise regularly',
+            'Eat healthy diet',
+            'Limit alcohol'
+        ],
+        'when_to_see_doctor': 'CALL 911 IMMEDIATELY if you suspect a stroke. Time is critical!',
+        'severity': 'Critical',
+        'confidence': 0.92
+    },
+    'heart_attack': {
+        'keywords': ['heart attack', 'chest pain', 'chest pressure', 'shortness of breath', 'arm pain', 'jaw pain', 'cardiac', 'myocardial infarction'],
+        'description': 'A heart attack occurs when blood flow to the heart is blocked.',
+        'symptoms': [
+            'Chest pain or pressure',
+            'Pain in arms, back, neck, jaw',
+            'Shortness of breath',
+            'Cold sweat',
+            'Nausea',
+            'Lightheadedness',
+            'Fatigue'
+        ],
+        'precautions': [
+            'Call emergency services immediately',
+            'Chew aspirin if available',
+            'Rest and stay calm',
+            'Control risk factors (blood pressure, cholesterol)',
+            'Exercise regularly',
+            'Eat heart-healthy diet',
+            'Quit smoking'
+        ],
+        'when_to_see_doctor': 'CALL 911 IMMEDIATELY if you suspect a heart attack!',
+        'severity': 'Critical',
+        'confidence': 0.93
     }
 }
 
@@ -622,7 +1127,7 @@ def create_header():
     st.markdown("""
     <div class="app-header">
         <h1 class="app-title">🏥 Advanced AI Medical Assistant</h1>
-        <p class="app-subtitle">⚡ Instant Medical Analysis • 🎯 10+ Conditions • 💯 Built-in Knowledge Base</p>
+        <p class="app-subtitle">⚡ Instant Medical Analysis • 🎯 30+ Conditions • 💯 Built-in Knowledge Base</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -684,7 +1189,7 @@ def main():
         <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
                     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); animation: slideUp 0.6s ease;'>
-            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>10+</h2>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>30+</h2>
             <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>Medical Conditions</p>
         </div>
         <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
