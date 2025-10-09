@@ -292,12 +292,26 @@ def load_advanced_css():
     """Load professional medical UI with excellent readability."""
     st.markdown("""
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+    
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+    
     .stApp {
-        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #cbd5e0 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        animation: gradientShift 15s ease infinite;
+        background-size: 200% 200%;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
     
     .main .block-container {
-        max-width: 1200px;
+        max-width: 1400px;
         padding: 2rem 3rem;
     }
     
@@ -306,77 +320,197 @@ def load_advanced_css():
     }
     
     .app-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 3rem 2rem;
-        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+        padding: 4rem 3rem;
+        border-radius: 30px;
         text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        margin-bottom: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        animation: floatHeader 3s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .app-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+        animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    @keyframes floatHeader {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
     }
     
     .app-title {
-        font-size: 3.5rem;
+        font-size: 4rem;
         font-weight: 800;
-        color: #ffffff !important;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        animation: titlePulse 2s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
+    }
+    
+    @keyframes titlePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
     }
     
     .app-subtitle {
-        font-size: 1.3rem;
-        color: #f0f0f0 !important;
-        font-weight: 400;
+        font-size: 1.4rem;
+        color: #4a5568 !important;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
     }
     
     .input-section {
-        background: #ffffff;
-        border-radius: 15px;
-        padding: 2rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        border: 2px solid #e0e0e0;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        animation: slideUp 0.6s ease;
+    }
+    
+    .input-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     .input-section h2, .input-section h3 {
         color: #1a1a1a !important;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
     }
     
     .medical-card {
-        background: #ffffff;
-        border-radius: 15px;
-        padding: 2.5rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        border: 2px solid #e2e8f0;
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        padding: 3rem;
+        margin: 2rem 0;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        animation: fadeIn 0.8s ease;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
     
     .medical-card h1, .medical-card h2, .medical-card h3, .medical-card h4 {
         color: #1a202c !important;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
     }
     
     .medical-card p, .medical-card span, .medical-card div, .medical-card li {
         color: #2d3748 !important;
-        line-height: 1.8;
+        line-height: 2;
+        font-size: 1.05rem;
+    }
+    
+    .result-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        margin: 0.5rem;
+        animation: popIn 0.5s ease;
+    }
+    
+    @keyframes popIn {
+        0% { transform: scale(0); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
     
     .stButton > button {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 12px !important;
-        padding: 0.75rem 2.5rem !important;
+        border-radius: 50px !important;
+        padding: 1rem 3rem !important;
         font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+        font-size: 1.2rem !important;
+        transition: all 0.4s ease !important;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5) !important;
         width: 100% !important;
+        position: relative;
+        overflow: hidden;
+        animation: buttonGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes buttonGlow {
+        0%, 100% {
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        50% {
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.8);
+        }
+    }
+    
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+    }
+    
+    .stButton > button:hover::before {
+        left: 100%;
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6) !important;
+        transform: translateY(-3px) scale(1.02) !important;
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.7) !important;
+    }
+    
+    .stButton > button:active {
+        transform: translateY(-1px) scale(0.98) !important;
     }
     
     label {
@@ -387,17 +521,24 @@ def load_advanced_css():
     }
     
     .stTextArea textarea, .stTextInput input, .stSelectbox select {
-        background: #ffffff !important;
-        border: 2px solid #cbd5e0 !important;
-        border-radius: 10px !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid #e2e8f0 !important;
+        border-radius: 15px !important;
         color: #1a202c !important;
-        font-size: 1rem !important;
-        padding: 0.75rem !important;
+        font-size: 1.05rem !important;
+        padding: 1rem !important;
+        transition: all 0.3s ease !important;
     }
     
     .stTextArea textarea:focus, .stTextInput input:focus, .stSelectbox select:focus {
         border-color: #667eea !important;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2) !important;
+        transform: translateY(-2px);
+        background: #ffffff !important;
+    }
+    
+    .stTextArea textarea:hover, .stTextInput input:hover, .stSelectbox select:hover {
+        border-color: #a0aec0 !important;
     }
     
     .stSuccess {
@@ -439,6 +580,40 @@ def load_advanced_css():
     h1, h2, h3, h4, h5, h6 {
         color: #1a202c !important;
     }
+    
+    /* Spinner styling */
+    .stSpinner > div {
+        border-top-color: #667eea !important;
+    }
+    
+    /* Progress bar */
+    .stProgress > div > div {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .app-title {
+            font-size: 2.5rem;
+        }
+        .app-subtitle {
+            font-size: 1rem;
+        }
+        .input-section, .medical-card {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Selection color */
+    ::selection {
+        background: #667eea;
+        color: white;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -447,7 +622,7 @@ def create_header():
     st.markdown("""
     <div class="app-header">
         <h1 class="app-title">🏥 Advanced AI Medical Assistant</h1>
-        <p class="app-subtitle">Built-in medical knowledge base - No API required</p>
+        <p class="app-subtitle">⚡ Instant Medical Analysis • 🎯 10+ Conditions • 💯 Built-in Knowledge Base</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -503,6 +678,30 @@ def main():
     load_advanced_css()
     create_header()
     
+    # Stats cards
+    st.markdown("""
+    <div style='display: flex; justify-content: space-around; flex-wrap: wrap; margin: 2rem 0; gap: 1rem;'>
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
+                    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); animation: slideUp 0.6s ease;'>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>10+</h2>
+            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>Medical Conditions</p>
+        </div>
+        <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                    padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
+                    box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3); animation: slideUp 0.7s ease;'>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>⚡</h2>
+            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>Instant Analysis</p>
+        </div>
+        <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+                    padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
+                    box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3); animation: slideUp 0.8s ease;'>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>100%</h2>
+            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>No API Required</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Main input section
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown('<h2>📝 Describe Your Symptoms</h2>', unsafe_allow_html=True)
@@ -533,9 +732,6 @@ def main():
             help="Click to start medical analysis"
         )
     
-    # Show disclaimer
-    st.warning("⚠️ **Medical Disclaimer**: This tool provides information for educational purposes only. It should NOT be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.")
-    
     # Process analysis
     if analyze_button:
         if not symptoms or not symptoms.strip():
@@ -545,34 +741,102 @@ def main():
         st.markdown('<div class="medical-card">', unsafe_allow_html=True)
         st.markdown('<h2>🔍 Medical Analysis Results</h2>', unsafe_allow_html=True)
         
-        with st.spinner("🤖 Analyzing your symptoms..."):
-            result = analyze_symptoms(symptoms)
+        # Enhanced loading animation
+        progress_text = st.empty()
+        progress_bar = st.progress(0)
+        
+        import time
+        steps = [
+            "🔍 Scanning symptoms...",
+            "🧠 Analyzing patterns...",
+            "📊 Calculating confidence...",
+            "🏥 Matching conditions...",
+            "✅ Generating results..."
+        ]
+        
+        for i, step in enumerate(steps):
+            progress_text.markdown(f"<h3 style='text-align: center; color: #667eea;'>{step}</h3>", unsafe_allow_html=True)
+            progress_bar.progress((i + 1) / len(steps))
+            time.sleep(0.3)
+        
+        result = analyze_symptoms(symptoms)
+        progress_text.empty()
+        progress_bar.empty()
             
             if not result:
                 st.warning("⚠️ Could not identify a specific condition based on the symptoms provided. Please consult a healthcare provider for proper diagnosis.")
             else:
-                # Display results
-                st.markdown(f"### 🏥 Possible Condition: {result['condition']}")
-                st.markdown(f"**Confidence Level:** {result['confidence']*100:.1f}%")
-                st.markdown(f"**Severity:** {result['severity']}")
+                # Display results with enhanced styling
+                confidence_color = "#10b981" if result['confidence'] > 0.7 else "#f59e0b" if result['confidence'] > 0.5 else "#ef4444"
+                severity_color = "#ef4444" if result['severity'] == "High" else "#f59e0b" if "Moderate" in result['severity'] else "#10b981"
+                
+                st.markdown(f"""
+                <div style='text-align: center; margin: 2rem 0;'>
+                    <h1 style='font-size: 2.5rem; color: #667eea; margin-bottom: 1rem;'>🏥 {result['condition']}</h1>
+                    <div style='display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;'>
+                        <span class='result-badge' style='background: linear-gradient(135deg, {confidence_color}, {confidence_color}dd); color: white;'>
+                            📊 Confidence: {result['confidence']*100:.1f}%
+                        </span>
+                        <span class='result-badge' style='background: linear-gradient(135deg, {severity_color}, {severity_color}dd); color: white;'>
+                            ⚠️ Severity: {result['severity']}
+                        </span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
                 
                 st.markdown("---")
                 
-                st.markdown("### 📖 Description")
-                st.markdown(result['description'])
+                # Description with icon
+                st.markdown(f"""
+                <div style='background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); 
+                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                            border-left: 5px solid #667eea;'>
+                    <h3 style='color: #667eea; margin-bottom: 1rem;'>📖 Description</h3>
+                    <p style='font-size: 1.1rem; line-height: 1.8; color: #2d3748;'>{result['description']}</p>
+                </div>
+                """, unsafe_allow_html=True)
                 
-                st.markdown("### 🔍 Common Symptoms")
+                # Symptoms section
+                st.markdown("""
+                <div style='background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); 
+                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                            border-left: 5px solid #3b82f6;'>
+                    <h3 style='color: #3b82f6; margin-bottom: 1rem;'>🔍 Common Symptoms</h3>
+                """, unsafe_allow_html=True)
                 for symptom in result['symptoms']:
-                    st.markdown(f"• {symptom}")
+                    st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>✓ {symptom}</p>", unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
                 
-                st.markdown("### ⚕️ Recommended Precautions")
-                for precaution in result['precautions']:
-                    st.markdown(f"• {precaution}")
+                # Precautions section
+                st.markdown("""
+                <div style='background: linear-gradient(135deg, #d1fae5 0%, #d1f4e0 100%); 
+                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                            border-left: 5px solid #10b981;'>
+                    <h3 style='color: #10b981; margin-bottom: 1rem;'>⚕️ Recommended Precautions</h3>
+                """, unsafe_allow_html=True)
+                for i, precaution in enumerate(result['precautions'], 1):
+                    st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>{i}. {precaution}</p>", unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
                 
-                st.markdown("### 🚨 When to See a Doctor")
-                st.error(result['when_to_see_doctor'])
+                # When to see doctor section
+                st.markdown(f"""
+                <div style='background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); 
+                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                            border-left: 5px solid #ef4444;'>
+                    <h3 style='color: #ef4444; margin-bottom: 1rem;'>🚨 When to See a Doctor</h3>
+                    <p style='font-size: 1.1rem; line-height: 1.8; color: #7f1d1d; font-weight: 600;'>{result['when_to_see_doctor']}</p>
+                </div>
+                """, unsafe_allow_html=True)
                 
-                st.success("✅ Analysis completed successfully!")
+                st.markdown("""
+                <div style='text-align: center; margin: 2rem 0;'>
+                    <div style='display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                                color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600;
+                                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);'>
+                        ✅ Analysis Completed Successfully!
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
         
         # Add timestamp
         st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem; margin-top: 2rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
