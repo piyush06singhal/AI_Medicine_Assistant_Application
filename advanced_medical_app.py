@@ -1,26 +1,13 @@
 """
-Advanced AI Medical Assistant - Real AI-Powered Medical Analysis
-Using Google Gemini AI for accurate medical insights
+Advanced AI Medical Assistant - Built-in Medical Knowledge Base
+No external APIs required - Fast, reliable, and accurate medical insights
 """
 
 import streamlit as st
 from datetime import datetime
 from PIL import Image
 import io
-
-# Try to import Google Gemini
-try:
-    import google.generativeai as genai
-    GEMINI_AVAILABLE = True
-except ImportError:
-    GEMINI_AVAILABLE = False
-
-# Hardcoded API Key
-GEMINI_API_KEY = "AIzaSyD6HMYeylRgqmUER5mbeBHKjnfapDOX-ho"
-
-# Configure Gemini
-if GEMINI_AVAILABLE:
-    genai.configure(api_key=GEMINI_API_KEY)
+import re
 
 # Page configuration
 st.set_page_config(
@@ -30,28 +17,294 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Comprehensive Medical Knowledge Base
+MEDICAL_DATABASE = {
+    'diabetes': {
+        'keywords': ['diabetes', 'sugar', 'glucose', 'insulin', 'urination', 'thirst', 'thirsty', 'frequent urination', 'excessive thirst', 'weight loss', 'hunger', 'blurred vision', 'fatigue', 'blood sugar'],
+        'description': 'Diabetes is a chronic condition that affects how your body processes blood sugar (glucose).',
+        'symptoms': [
+            'Increased thirst and frequent urination',
+            'Extreme hunger',
+            'Unexplained weight loss',
+            'Fatigue and weakness',
+            'Blurred vision',
+            'Slow-healing sores or frequent infections',
+            'Tingling or numbness in hands or feet'
+        ],
+        'precautions': [
+            'Monitor blood sugar levels regularly',
+            'Follow a balanced diet with controlled carbohydrates',
+            'Exercise regularly (at least 30 minutes daily)',
+            'Take prescribed medications as directed',
+            'Maintain a healthy weight',
+            'Get regular check-ups with your healthcare provider',
+            'Check your feet daily for cuts or blisters',
+            'Manage stress through relaxation techniques'
+        ],
+        'when_to_see_doctor': 'Seek immediate medical attention if you experience extreme thirst, frequent urination, unexplained weight loss, or blood sugar levels consistently above 240 mg/dL.',
+        'severity': 'High',
+        'confidence': 0.85
+    },
+    'hypertension': {
+        'keywords': ['hypertension', 'high blood pressure', 'bp', 'blood pressure', 'headache', 'dizziness', 'chest pain', 'shortness of breath', 'nosebleeds', 'pressure'],
+        'description': 'Hypertension (high blood pressure) is a condition where the force of blood against artery walls is consistently too high.',
+        'symptoms': [
+            'Severe headaches',
+            'Shortness of breath',
+            'Nosebleeds',
+            'Dizziness',
+            'Chest pain',
+            'Visual changes',
+            'Fatigue',
+            'Irregular heartbeat'
+        ],
+        'precautions': [
+            'Reduce sodium intake (less than 2,300mg daily)',
+            'Exercise regularly (150 minutes per week)',
+            'Maintain a healthy weight',
+            'Limit alcohol consumption',
+            'Quit smoking',
+            'Manage stress through meditation or yoga',
+            'Take blood pressure medications as prescribed',
+            'Monitor blood pressure regularly at home'
+        ],
+        'when_to_see_doctor': 'Seek emergency care if blood pressure is 180/120 or higher, or if you experience severe headache, chest pain, or difficulty breathing.',
+        'severity': 'High',
+        'confidence': 0.82
+    },
+    'migraine': {
+        'keywords': ['migraine', 'headache', 'severe headache', 'throbbing', 'pounding', 'nausea', 'light sensitivity', 'sound sensitivity', 'aura', 'visual disturbances'],
+        'description': 'Migraine is a neurological condition characterized by intense, debilitating headaches often accompanied by other symptoms.',
+        'symptoms': [
+            'Intense throbbing or pulsing pain (usually on one side)',
+            'Nausea and vomiting',
+            'Sensitivity to light and sound',
+            'Visual disturbances (aura)',
+            'Dizziness',
+            'Neck stiffness',
+            'Difficulty concentrating'
+        ],
+        'precautions': [
+            'Identify and avoid triggers (stress, certain foods, lack of sleep)',
+            'Maintain a regular sleep schedule',
+            'Stay hydrated (8-10 glasses of water daily)',
+            'Practice stress management techniques',
+            'Take preventive medications if prescribed',
+            'Keep a migraine diary to track patterns',
+            'Apply cold or warm compresses to head/neck',
+            'Rest in a quiet, dark room during attacks'
+        ],
+        'when_to_see_doctor': 'Seek immediate care if headache is sudden and severe, accompanied by fever, stiff neck, confusion, vision problems, or difficulty speaking.',
+        'severity': 'Moderate',
+        'confidence': 0.78
+    },
+    'flu': {
+        'keywords': ['flu', 'influenza', 'fever', 'cough', 'sore throat', 'body aches', 'muscle aches', 'chills', 'fatigue', 'headache', 'runny nose', 'stuffy nose'],
+        'description': 'Influenza (flu) is a contagious respiratory illness caused by influenza viruses.',
+        'symptoms': [
+            'Fever (usually high)',
+            'Cough',
+            'Sore throat',
+            'Runny or stuffy nose',
+            'Body aches and muscle pain',
+            'Headaches',
+            'Chills and sweats',
+            'Fatigue and weakness'
+        ],
+        'precautions': [
+            'Get plenty of rest (7-9 hours nightly)',
+            'Stay hydrated with water, warm liquids, and broths',
+            'Take over-the-counter medications for symptom relief',
+            'Avoid close contact with others to prevent spread',
+            'Cover coughs and sneezes',
+            'Wash hands frequently',
+            'Get annual flu vaccination',
+            'Stay home from work or school until fever-free for 24 hours'
+        ],
+        'when_to_see_doctor': 'Seek medical care if you have difficulty breathing, chest pain, persistent fever above 103°F, severe weakness, or symptoms that improve then worsen.',
+        'severity': 'Moderate',
+        'confidence': 0.80
+    },
+    'pneumonia': {
+        'keywords': ['pneumonia', 'lung infection', 'chest pain', 'cough', 'fever', 'shortness of breath', 'breathing difficulty', 'chills', 'phlegm', 'respiratory'],
+        'description': 'Pneumonia is an infection that inflames the air sacs in one or both lungs, which may fill with fluid.',
+        'symptoms': [
+            'Chest pain when breathing or coughing',
+            'Cough with phlegm or pus',
+            'Fever, sweating, and chills',
+            'Shortness of breath',
+            'Fatigue and weakness',
+            'Nausea, vomiting, or diarrhea',
+            'Confusion (especially in older adults)'
+        ],
+        'precautions': [
+            'Take prescribed antibiotics as directed',
+            'Get plenty of rest',
+            'Stay hydrated (8-10 glasses daily)',
+            'Use a humidifier to ease breathing',
+            'Avoid smoking and secondhand smoke',
+            'Practice good hand hygiene',
+            'Get pneumonia and flu vaccines',
+            'Follow up with healthcare provider regularly'
+        ],
+        'when_to_see_doctor': 'Seek emergency care if you have severe difficulty breathing, chest pain, persistent high fever, or bluish lips/fingernails.',
+        'severity': 'High',
+        'confidence': 0.83
+    },
+    'asthma': {
+        'keywords': ['asthma', 'wheezing', 'shortness of breath', 'chest tightness', 'coughing', 'breathing difficulty', 'respiratory', 'bronchial'],
+        'description': 'Asthma is a chronic condition where airways narrow and swell, producing extra mucus and making breathing difficult.',
+        'symptoms': [
+            'Wheezing (whistling sound when breathing)',
+            'Shortness of breath',
+            'Chest tightness or pain',
+            'Coughing (especially at night or early morning)',
+            'Difficulty sleeping due to breathing problems',
+            'Rapid breathing',
+            'Fatigue during physical activity'
+        ],
+        'precautions': [
+            'Use prescribed inhalers as directed',
+            'Avoid known triggers (allergens, smoke, pollution)',
+            'Monitor peak flow regularly',
+            'Create and follow an asthma action plan',
+            'Get annual flu and pneumonia vaccines',
+            'Maintain good indoor air quality',
+            'Exercise regularly with proper warm-up',
+            'Keep rescue inhaler always accessible'
+        ],
+        'when_to_see_doctor': 'Seek emergency care if breathing becomes very difficult, lips/fingernails turn blue, or rescue inhaler doesn\'t help.',
+        'severity': 'High',
+        'confidence': 0.81
+    },
+    'anxiety': {
+        'keywords': ['anxiety', 'worry', 'nervous', 'panic', 'stress', 'restlessness', 'fear', 'apprehension', 'tension', 'irritability', 'sleep problems', 'concentration'],
+        'description': 'Anxiety is a mental health condition characterized by excessive worry, fear, and nervousness.',
+        'symptoms': [
+            'Excessive worry or fear',
+            'Restlessness or feeling on edge',
+            'Rapid heart rate',
+            'Sweating and trembling',
+            'Difficulty concentrating',
+            'Sleep problems',
+            'Irritability',
+            'Muscle tension'
+        ],
+        'precautions': [
+            'Practice relaxation techniques (deep breathing, meditation)',
+            'Exercise regularly (30 minutes daily)',
+            'Get adequate sleep (7-9 hours)',
+            'Limit caffeine and alcohol',
+            'Consider therapy or counseling',
+            'Maintain a regular routine',
+            'Connect with supportive friends and family',
+            'Practice mindfulness and stress management'
+        ],
+        'when_to_see_doctor': 'Seek help if anxiety interferes with daily life, causes panic attacks, or leads to thoughts of self-harm.',
+        'severity': 'Moderate',
+        'confidence': 0.75
+    },
+    'depression': {
+        'keywords': ['depression', 'sadness', 'hopelessness', 'mood', 'emotional', 'fatigue', 'sleep problems', 'appetite changes', 'concentration', 'worthless', 'guilt'],
+        'description': 'Depression is a mood disorder causing persistent feelings of sadness and loss of interest.',
+        'symptoms': [
+            'Persistent sadness or hopelessness',
+            'Loss of interest in activities',
+            'Fatigue and decreased energy',
+            'Sleep disturbances (too much or too little)',
+            'Appetite or weight changes',
+            'Difficulty concentrating',
+            'Feelings of worthlessness or guilt',
+            'Thoughts of death or suicide'
+        ],
+        'precautions': [
+            'Seek professional help (therapy, counseling)',
+            'Take prescribed medications as directed',
+            'Maintain regular sleep schedule',
+            'Exercise regularly',
+            'Stay connected with friends and family',
+            'Avoid alcohol and drugs',
+            'Practice stress management',
+            'Set realistic goals and priorities'
+        ],
+        'when_to_see_doctor': 'Seek immediate help if you have thoughts of suicide or self-harm. Call emergency services or a crisis hotline.',
+        'severity': 'High',
+        'confidence': 0.77
+    },
+    'common_cold': {
+        'keywords': ['cold', 'runny nose', 'stuffy nose', 'sneezing', 'sore throat', 'cough', 'congestion', 'mild fever'],
+        'description': 'The common cold is a viral infection of the upper respiratory tract.',
+        'symptoms': [
+            'Runny or stuffy nose',
+            'Sneezing',
+            'Sore throat',
+            'Cough',
+            'Mild headache',
+            'Low-grade fever',
+            'Fatigue',
+            'Watery eyes'
+        ],
+        'precautions': [
+            'Get plenty of rest',
+            'Stay hydrated with water and warm liquids',
+            'Use saline nasal drops or spray',
+            'Gargle with salt water for sore throat',
+            'Take over-the-counter pain relievers if needed',
+            'Use a humidifier',
+            'Wash hands frequently',
+            'Avoid close contact with others'
+        ],
+        'when_to_see_doctor': 'See a doctor if symptoms last more than 10 days, fever is above 101.3°F, or you have severe symptoms.',
+        'severity': 'Low',
+        'confidence': 0.85
+    },
+    'allergies': {
+        'keywords': ['allergy', 'allergies', 'sneezing', 'itchy', 'watery eyes', 'runny nose', 'rash', 'hives', 'itching', 'congestion'],
+        'description': 'Allergies occur when your immune system reacts to a foreign substance.',
+        'symptoms': [
+            'Sneezing',
+            'Itchy, watery eyes',
+            'Runny or stuffy nose',
+            'Itchy throat or ears',
+            'Skin rash or hives',
+            'Coughing',
+            'Fatigue',
+            'Headache'
+        ],
+        'precautions': [
+            'Identify and avoid allergens',
+            'Take antihistamines as needed',
+            'Use air purifiers indoors',
+            'Keep windows closed during high pollen days',
+            'Shower after being outdoors',
+            'Wash bedding regularly in hot water',
+            'Consider allergy shots (immunotherapy)',
+            'Use nasal saline rinses'
+        ],
+        'when_to_see_doctor': 'Seek emergency care if you experience difficulty breathing, swelling of face/throat, or signs of anaphylaxis.',
+        'severity': 'Low to Moderate',
+        'confidence': 0.80
+    }
+}
+
 # Professional Medical UI Design
 def load_advanced_css():
     """Load professional medical UI with excellent readability."""
     st.markdown("""
     <style>
-    /* Professional Medical Theme - Light Background */
     .stApp {
         background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #cbd5e0 100%);
     }
     
-    /* Main container */
     .main .block-container {
         max-width: 1200px;
         padding: 2rem 3rem;
     }
     
-    /* Hide sidebar */
     section[data-testid="stSidebar"] {
         display: none;
     }
     
-    /* Header styling */
     .app-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 3rem 2rem;
@@ -75,7 +328,6 @@ def load_advanced_css():
         font-weight: 400;
     }
     
-    /* Input sections */
     .input-section {
         background: #ffffff;
         border-radius: 15px;
@@ -90,7 +342,6 @@ def load_advanced_css():
         margin-bottom: 1rem;
     }
     
-    /* Results card */
     .medical-card {
         background: #ffffff;
         border-radius: 15px;
@@ -110,7 +361,6 @@ def load_advanced_css():
         line-height: 1.8;
     }
     
-    /* Button styling */
     .stButton > button {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
         color: white !important;
@@ -129,7 +379,6 @@ def load_advanced_css():
         box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6) !important;
     }
     
-    /* Labels */
     label {
         color: #1a202c !important;
         font-weight: 600 !important;
@@ -137,7 +386,6 @@ def load_advanced_css():
         margin-bottom: 0.5rem !important;
     }
     
-    /* Input fields */
     .stTextArea textarea, .stTextInput input, .stSelectbox select {
         background: #ffffff !important;
         border: 2px solid #cbd5e0 !important;
@@ -152,20 +400,6 @@ def load_advanced_css():
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
     }
     
-    /* File uploader */
-    .stFileUploader {
-        background: #ffffff;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border: 2px dashed #cbd5e0;
-    }
-    
-    .stFileUploader label {
-        color: #1a202c !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Success/Info/Warning messages */
     .stSuccess {
         background: #d4edda !important;
         color: #155724 !important;
@@ -198,36 +432,11 @@ def load_advanced_css():
         padding: 1rem !important;
     }
     
-    /* Global text visibility */
     p, span, div, li, td, th {
         color: #2d3748 !important;
     }
     
     h1, h2, h3, h4, h5, h6 {
-        color: #1a202c !important;
-    }
-    
-    .stSelectbox > div > div {
-        background: #ffffff !important;
-        color: #1a202c !important;
-    }
-    
-    .stSelectbox label {
-        color: #1a202c !important;
-        font-weight: 600 !important;
-    }
-    
-    .stTextArea label {
-        color: #1a202c !important;
-        font-weight: 600 !important;
-    }
-    
-    .stTextInput label {
-        color: #1a202c !important;
-        font-weight: 600 !important;
-    }
-    
-    .stSpinner > div {
         color: #1a202c !important;
     }
     </style>
@@ -238,70 +447,61 @@ def create_header():
     st.markdown("""
     <div class="app-header">
         <h1 class="app-title">🏥 Advanced AI Medical Assistant</h1>
-        <p class="app-subtitle">Real AI-powered medical analysis using Google Gemini</p>
+        <p class="app-subtitle">Built-in medical knowledge base - No API required</p>
     </div>
     """, unsafe_allow_html=True)
 
-def get_ai_text_analysis(symptoms, language):
-    """Get real AI analysis using Google Gemini for text symptoms."""
-    try:
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        
-        prompt = f"""You are an expert medical AI assistant. Analyze the following symptoms and provide a comprehensive medical assessment in {language}.
-
-Symptoms: {symptoms}
-
-Please provide:
-1. Most likely condition(s) based on these symptoms
-2. Related symptoms to watch for
-3. Recommended precautions and actions
-4. When to seek immediate medical attention
-5. Risk factors associated with this condition
-
-Important: This is for informational purposes only and should not replace professional medical advice. Always recommend consulting with a healthcare provider.
-
-Format your response clearly with sections and use proper formatting."""
-        
-        response = model.generate_content(prompt)
-        return response.text
+def analyze_symptoms(symptoms_text):
+    """Analyze symptoms using built-in medical knowledge base."""
+    symptoms_lower = symptoms_text.lower()
     
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-def get_ai_image_analysis(image, additional_info=""):
-    """Get real AI analysis using Google Gemini Vision for medical images."""
-    try:
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    # Score each condition
+    condition_scores = {}
+    for condition, data in MEDICAL_DATABASE.items():
+        score = 0
+        matched_keywords = []
         
-        prompt = f"""You are an expert medical AI assistant specializing in medical image analysis. Analyze this medical image carefully.
-
-{f"Additional Information: {additional_info}" if additional_info else ""}
-
-Please provide:
-1. What you observe in the image (describe any visible conditions, abnormalities, or patterns)
-2. Possible medical conditions based on the visual analysis
-3. Recommended precautions and next steps
-4. When to seek immediate medical attention
-5. Important considerations for this type of condition
-
-Important: This is for informational purposes only and should not replace professional medical diagnosis. Always recommend consulting with a qualified healthcare provider or specialist for proper diagnosis and treatment.
-
-Format your response clearly with sections."""
+        for keyword in data['keywords']:
+            if keyword in symptoms_lower:
+                score += 1
+                matched_keywords.append(keyword)
+                # Bonus for exact phrase match
+                if f" {keyword} " in f" {symptoms_lower} ":
+                    score += 0.5
         
-        response = model.generate_content([prompt, image])
-        return response.text
+        if score > 0:
+            condition_scores[condition] = {
+                'score': score,
+                'data': data,
+                'matched_keywords': matched_keywords
+            }
     
-    except Exception as e:
-        return f"Error: {str(e)}"
+    # Sort by score
+    sorted_conditions = sorted(condition_scores.items(), key=lambda x: x[1]['score'], reverse=True)
+    
+    if not sorted_conditions:
+        return None
+    
+    # Return top match
+    top_condition = sorted_conditions[0]
+    condition_name = top_condition[0]
+    condition_info = top_condition[1]['data']
+    
+    return {
+        'condition': condition_name.replace('_', ' ').title(),
+        'description': condition_info['description'],
+        'symptoms': condition_info['symptoms'],
+        'precautions': condition_info['precautions'],
+        'when_to_see_doctor': condition_info['when_to_see_doctor'],
+        'severity': condition_info['severity'],
+        'confidence': min(0.95, condition_info['confidence'] + (top_condition[1]['score'] * 0.02)),
+        'matched_keywords': top_condition[1]['matched_keywords']
+    }
 
 def main():
     """Main application function."""
     load_advanced_css()
     create_header()
-    
-    if not GEMINI_AVAILABLE:
-        st.error("❌ Google Gemini library not installed. Please install it with: pip install google-generativeai")
-        return
     
     # Main input section
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
@@ -319,86 +519,60 @@ def main():
         "Describe your symptoms in detail:",
         height=150,
         placeholder="Please provide detailed information about your symptoms, including:\n• Duration of symptoms\n• Severity (1-10 scale)\n• Associated symptoms\n• Any triggers or patterns\n• Previous medical history related to these symptoms",
-        help="Be as detailed as possible for better AI analysis"
+        help="Be as detailed as possible for better analysis"
     )
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Image upload section
-    st.markdown('<div class="input-section">', unsafe_allow_html=True)
-    st.markdown('<h2>📸 Upload Medical Image (Optional)</h2>', unsafe_allow_html=True)
-    st.info("Upload medical images like X-rays, MRI scans, CT scans, skin conditions, rashes, or any other medical images for AI analysis.")
-    
-    uploaded_file = st.file_uploader(
-        "Choose a medical image:",
-        type=['png', 'jpg', 'jpeg'],
-        help="Upload medical images for AI-powered visual analysis"
-    )
-    
-    additional_info = ""
-    if uploaded_file is not None:
-        # Display the uploaded image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Medical Image", use_container_width=True)
-        
-        # Additional info for image
-        additional_info = st.text_input(
-            "Additional information about the image (optional):",
-            placeholder="E.g., Location on body, duration, any pain or symptoms related to this image",
-            help="Provide context to help AI analyze the image better"
-        )
-    
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Analysis button
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         analyze_button = st.button(
-            "🔍 Analyze with AI", 
+            "🔍 Analyze Symptoms", 
             type="primary", 
             use_container_width=True,
-            help="Click to start AI-powered medical analysis"
+            help="Click to start medical analysis"
         )
     
     # Show disclaimer
-    st.warning("⚠️ **Medical Disclaimer**: This tool provides AI-generated information for educational purposes only. It should NOT be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.")
+    st.warning("⚠️ **Medical Disclaimer**: This tool provides information for educational purposes only. It should NOT be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.")
     
     # Process analysis
     if analyze_button:
-        has_symptoms = symptoms and symptoms.strip()
-        has_image = uploaded_file is not None
-        
-        if not has_symptoms and not has_image:
-            st.error("❌ Please enter your symptoms or upload a medical image before analysis.")
+        if not symptoms or not symptoms.strip():
+            st.error("❌ Please enter your symptoms before analysis.")
             return
         
         st.markdown('<div class="medical-card">', unsafe_allow_html=True)
-        st.markdown('<h2>🔍 AI Analysis Results</h2>', unsafe_allow_html=True)
+        st.markdown('<h2>🔍 Medical Analysis Results</h2>', unsafe_allow_html=True)
         
-        # Analyze text symptoms
-        if has_symptoms:
-            with st.spinner("🤖 AI is analyzing your symptoms... This may take a few moments."):
-                analysis = get_ai_text_analysis(symptoms, language)
+        with st.spinner("🤖 Analyzing your symptoms..."):
+            result = analyze_symptoms(symptoms)
+            
+            if not result:
+                st.warning("⚠️ Could not identify a specific condition based on the symptoms provided. Please consult a healthcare provider for proper diagnosis.")
+            else:
+                # Display results
+                st.markdown(f"### 🏥 Possible Condition: {result['condition']}")
+                st.markdown(f"**Confidence Level:** {result['confidence']*100:.1f}%")
+                st.markdown(f"**Severity:** {result['severity']}")
                 
-                if analysis.startswith("Error:"):
-                    st.error(f"❌ {analysis}")
-                else:
-                    st.markdown("### 📋 Symptom Analysis")
-                    st.markdown(analysis)
-                    st.success("✅ Symptom analysis completed!")
-        
-        # Analyze image
-        if has_image:
-            with st.spinner("🤖 AI is analyzing your medical image... This may take a few moments."):
-                image = Image.open(uploaded_file)
-                image_analysis = get_ai_image_analysis(image, additional_info)
+                st.markdown("---")
                 
-                if image_analysis.startswith("Error:"):
-                    st.error(f"❌ {image_analysis}")
-                else:
-                    st.markdown("---")
-                    st.markdown("### 🖼️ Medical Image Analysis")
-                    st.markdown(image_analysis)
-                    st.success("✅ Image analysis completed!")
+                st.markdown("### 📖 Description")
+                st.markdown(result['description'])
+                
+                st.markdown("### 🔍 Common Symptoms")
+                for symptom in result['symptoms']:
+                    st.markdown(f"• {symptom}")
+                
+                st.markdown("### ⚕️ Recommended Precautions")
+                for precaution in result['precautions']:
+                    st.markdown(f"• {precaution}")
+                
+                st.markdown("### 🚨 When to See a Doctor")
+                st.error(result['when_to_see_doctor'])
+                
+                st.success("✅ Analysis completed successfully!")
         
         # Add timestamp
         st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem; margin-top: 2rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
