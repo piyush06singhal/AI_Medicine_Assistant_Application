@@ -1183,26 +1183,32 @@ def main():
     load_advanced_css()
     create_header()
     
-    # Stats cards
+    # Stats cards with improved design
     st.markdown("""
-    <div style='display: flex; justify-content: space-around; flex-wrap: wrap; margin: 2rem 0; gap: 1rem;'>
+    <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;'>
         <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
-                    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); animation: slideUp 0.6s ease;'>
-            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>30+</h2>
-            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>Medical Conditions</p>
+                    padding: 2rem; border-radius: 20px; text-align: center;
+                    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); 
+                    transition: transform 0.3s ease; animation: slideUp 0.6s ease;'>
+            <div style='font-size: 3rem; margin-bottom: 0.5rem;'>🏥</div>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0.5rem 0;'>30+</h2>
+            <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 1.1rem;'>Medical Conditions</p>
         </div>
         <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
-                    padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
-                    box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3); animation: slideUp 0.7s ease;'>
-            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>⚡</h2>
-            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>Instant Analysis</p>
+                    padding: 2rem; border-radius: 20px; text-align: center;
+                    box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3); 
+                    transition: transform 0.3s ease; animation: slideUp 0.7s ease;'>
+            <div style='font-size: 3rem; margin-bottom: 0.5rem;'>⚡</div>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0.5rem 0;'>Instant</h2>
+            <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 1.1rem;'>AI Analysis</p>
         </div>
         <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
-                    padding: 1.5rem; border-radius: 20px; text-align: center; flex: 1; min-width: 200px;
-                    box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3); animation: slideUp 0.8s ease;'>
-            <h2 style='color: white; font-size: 2.5rem; margin: 0;'>100%</h2>
-            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>No API Required</p>
+                    padding: 2rem; border-radius: 20px; text-align: center;
+                    box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3); 
+                    transition: transform 0.3s ease; animation: slideUp 0.8s ease;'>
+            <div style='font-size: 3rem; margin-bottom: 0.5rem;'>🔒</div>
+            <h2 style='color: white; font-size: 2.5rem; margin: 0.5rem 0;'>Private</h2>
+            <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 1.1rem;'>No API Required</p>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1345,67 +1351,17 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Additional Information Sections
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.markdown("""
-                    <div style='background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); 
-                                padding: 1.5rem; border-radius: 15px; margin: 1rem 0;
-                                border-left: 5px solid #f59e0b; height: 100%;'>
-                        <h3 style='color: #f59e0b; margin-bottom: 1rem;'>💡 Prevention Tips</h3>
-                        <p style='font-size: 1rem; line-height: 1.7; color: #78350f;'>
-                            • Maintain a healthy lifestyle with regular exercise<br>
-                            • Eat a balanced diet rich in fruits and vegetables<br>
-                            • Get adequate sleep (7-9 hours nightly)<br>
-                            • Stay hydrated throughout the day<br>
-                            • Manage stress through relaxation techniques<br>
-                            • Avoid smoking and limit alcohol consumption
-                        </p>
-                    </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown("""
-                    <div style='background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); 
-                                padding: 1.5rem; border-radius: 15px; margin: 1rem 0;
-                                border-left: 5px solid #6366f1; height: 100%;'>
-                        <h3 style='color: #6366f1; margin-bottom: 1rem;'>🏃 Lifestyle Recommendations</h3>
-                        <p style='font-size: 1rem; line-height: 1.7; color: #312e81;'>
-                            • Regular physical activity (30 min/day)<br>
-                            • Maintain healthy weight (BMI 18.5-24.9)<br>
-                            • Practice good hygiene habits<br>
-                            • Schedule regular health check-ups<br>
-                            • Keep track of your symptoms<br>
-                            • Build a strong support system
-                        </p>
-                    </div>
-                """, unsafe_allow_html=True)
-            
-            # Did You Know section
+            # Important Medical Note
             st.markdown("""
-                <div style='background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); 
-                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
-                            border-left: 5px solid #ec4899;'>
-                    <h3 style='color: #ec4899; margin-bottom: 1rem;'>💭 Did You Know?</h3>
-                    <p style='font-size: 1.05rem; line-height: 1.8; color: #831843;'>
-                        Early detection and proper management of health conditions can significantly improve outcomes. 
-                        Regular health screenings, maintaining a healthy lifestyle, and staying informed about your health 
-                        are key factors in preventing and managing medical conditions effectively.
-                    </p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-            # Important Note
-            st.markdown("""
-                <div style='background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%); 
-                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
-                            border: 2px solid #8b5cf6;'>
-                    <h3 style='color: #7c3aed; margin-bottom: 1rem;'>📌 Important Note</h3>
-                    <p style='font-size: 1rem; line-height: 1.7; color: #5b21b6; font-weight: 500;'>
-                        This analysis is based on a comprehensive medical knowledge base and is intended for informational 
-                        purposes only. It should not replace professional medical advice, diagnosis, or treatment. 
-                        Always consult with qualified healthcare providers for accurate diagnosis and personalized treatment plans.
+                <div style='background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); 
+                            padding: 2rem; border-radius: 15px; margin: 2rem 0;
+                            border: 2px solid #0ea5e9; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);'>
+                    <h3 style='color: #0369a1; margin-bottom: 1rem; font-size: 1.3rem;'>ℹ️ Medical Disclaimer</h3>
+                    <p style='font-size: 1.05rem; line-height: 1.8; color: #075985; font-weight: 500;'>
+                        This analysis is based on a comprehensive medical knowledge base covering 30+ conditions. 
+                        The information provided is for educational purposes only and should not replace professional 
+                        medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers 
+                        for accurate diagnosis and personalized treatment plans.
                     </p>
                 </div>
             """, unsafe_allow_html=True)
