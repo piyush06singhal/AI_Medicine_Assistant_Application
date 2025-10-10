@@ -1267,81 +1267,138 @@ def main():
         result = analyze_symptoms(symptoms)
         progress_text.empty()
         progress_bar.empty()
+        
+        if not result:
+            st.warning("⚠️ Could not identify a specific condition based on the symptoms provided. Please consult a healthcare provider for proper diagnosis.")
+        else:
+            # Display results with enhanced styling
+            st.markdown(f"""
+                <div style='text-align: center; margin: 2rem 0; padding: 2rem; 
+                            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                            border-radius: 20px; border: 2px solid rgba(102, 126, 234, 0.3);'>
+                    <h1 style='font-size: 3rem; color: #667eea; margin-bottom: 0.5rem; font-weight: 800;'>🏥 {result['condition']}</h1>
+                    <p style='font-size: 1.3rem; color: #4a5568; font-style: italic; margin-top: 0.5rem;'>Comprehensive Medical Analysis & Recommendations</p>
+            </div>
+            """, unsafe_allow_html=True)
             
-            if not result:
-                st.warning("⚠️ Could not identify a specific condition based on the symptoms provided. Please consult a healthcare provider for proper diagnosis.")
-            else:
-                # Display results with enhanced styling
-                confidence_color = "#10b981" if result['confidence'] > 0.7 else "#f59e0b" if result['confidence'] > 0.5 else "#ef4444"
-                severity_color = "#ef4444" if result['severity'] == "High" else "#f59e0b" if "Moderate" in result['severity'] else "#10b981"
-                
-                st.markdown(f"""
-                <div style='text-align: center; margin: 2rem 0;'>
-                    <h1 style='font-size: 2.5rem; color: #667eea; margin-bottom: 1rem;'>🏥 {result['condition']}</h1>
-                    <div style='display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;'>
-                        <span class='result-badge' style='background: linear-gradient(135deg, {confidence_color}, {confidence_color}dd); color: white;'>
-                            📊 Confidence: {result['confidence']*100:.1f}%
-                        </span>
-                        <span class='result-badge' style='background: linear-gradient(135deg, {severity_color}, {severity_color}dd); color: white;'>
-                            ⚠️ Severity: {result['severity']}
-                        </span>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("---")
-                
-                # Description with icon
-                st.markdown(f"""
+            st.markdown("---")
+            
+            # Description with icon
+            st.markdown(f"""
                 <div style='background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #667eea;'>
                     <h3 style='color: #667eea; margin-bottom: 1rem;'>📖 Description</h3>
                     <p style='font-size: 1.1rem; line-height: 1.8; color: #2d3748;'>{result['description']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Symptoms section
-                st.markdown("""
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Symptoms section
+            st.markdown("""
                 <div style='background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #3b82f6;'>
                     <h3 style='color: #3b82f6; margin-bottom: 1rem;'>🔍 Common Symptoms</h3>
-                """, unsafe_allow_html=True)
-                for symptom in result['symptoms']:
-                    st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>✓ {symptom}</p>", unsafe_allow_html=True)
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-                # Precautions section
-                st.markdown("""
+            """, unsafe_allow_html=True)
+            for symptom in result['symptoms']:
+                st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>✓ {symptom}</p>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+            # Precautions section
+            st.markdown("""
                 <div style='background: linear-gradient(135deg, #d1fae5 0%, #d1f4e0 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #10b981;'>
                     <h3 style='color: #10b981; margin-bottom: 1rem;'>⚕️ Recommended Precautions</h3>
-                """, unsafe_allow_html=True)
-                for i, precaution in enumerate(result['precautions'], 1):
-                    st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>{i}. {precaution}</p>", unsafe_allow_html=True)
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-                # When to see doctor section
-                st.markdown(f"""
+            """, unsafe_allow_html=True)
+            for i, precaution in enumerate(result['precautions'], 1):
+                st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>{i}. {precaution}</p>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+            # When to see doctor section
+            st.markdown(f"""
                 <div style='background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #ef4444;'>
                     <h3 style='color: #ef4444; margin-bottom: 1rem;'>🚨 When to See a Doctor</h3>
                     <p style='font-size: 1.1rem; line-height: 1.8; color: #7f1d1d; font-weight: 600;'>{result['when_to_see_doctor']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Additional Information Sections
+            col1, col2 = st.columns(2)
+            
+            with col1:
                 st.markdown("""
-                <div style='text-align: center; margin: 2rem 0;'>
-                    <div style='display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                                color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600;
-                                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);'>
-                        ✅ Analysis Completed Successfully!
+                    <div style='background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); 
+                                padding: 1.5rem; border-radius: 15px; margin: 1rem 0;
+                                border-left: 5px solid #f59e0b; height: 100%;'>
+                        <h3 style='color: #f59e0b; margin-bottom: 1rem;'>💡 Prevention Tips</h3>
+                        <p style='font-size: 1rem; line-height: 1.7; color: #78350f;'>
+                            • Maintain a healthy lifestyle with regular exercise<br>
+                            • Eat a balanced diet rich in fruits and vegetables<br>
+                            • Get adequate sleep (7-9 hours nightly)<br>
+                            • Stay hydrated throughout the day<br>
+                            • Manage stress through relaxation techniques<br>
+                            • Avoid smoking and limit alcohol consumption
+                        </p>
                     </div>
-                </div>
                 """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown("""
+                    <div style='background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); 
+                                padding: 1.5rem; border-radius: 15px; margin: 1rem 0;
+                                border-left: 5px solid #6366f1; height: 100%;'>
+                        <h3 style='color: #6366f1; margin-bottom: 1rem;'>🏃 Lifestyle Recommendations</h3>
+                        <p style='font-size: 1rem; line-height: 1.7; color: #312e81;'>
+                            • Regular physical activity (30 min/day)<br>
+                            • Maintain healthy weight (BMI 18.5-24.9)<br>
+                            • Practice good hygiene habits<br>
+                            • Schedule regular health check-ups<br>
+                            • Keep track of your symptoms<br>
+                            • Build a strong support system
+                        </p>
+                    </div>
+                """, unsafe_allow_html=True)
+            
+            # Did You Know section
+            st.markdown("""
+                <div style='background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); 
+                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                            border-left: 5px solid #ec4899;'>
+                    <h3 style='color: #ec4899; margin-bottom: 1rem;'>💭 Did You Know?</h3>
+                    <p style='font-size: 1.05rem; line-height: 1.8; color: #831843;'>
+                        Early detection and proper management of health conditions can significantly improve outcomes. 
+                        Regular health screenings, maintaining a healthy lifestyle, and staying informed about your health 
+                        are key factors in preventing and managing medical conditions effectively.
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            # Important Note
+            st.markdown("""
+                <div style='background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%); 
+                            padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                            border: 2px solid #8b5cf6;'>
+                    <h3 style='color: #7c3aed; margin-bottom: 1rem;'>📌 Important Note</h3>
+                    <p style='font-size: 1rem; line-height: 1.7; color: #5b21b6; font-weight: 500;'>
+                        This analysis is based on a comprehensive medical knowledge base and is intended for informational 
+                        purposes only. It should not replace professional medical advice, diagnosis, or treatment. 
+                        Always consult with qualified healthcare providers for accurate diagnosis and personalized treatment plans.
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div style='text-align: center; margin: 2rem 0;'>
+                <div style='display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                            color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600;
+                            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);'>
+                    ✅ Analysis Completed Successfully!
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
         
         # Add timestamp
         st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem; margin-top: 2rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
