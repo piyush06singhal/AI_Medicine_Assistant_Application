@@ -1207,9 +1207,21 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
+    # Emergency section at top
+    create_emergency_section()
+    
+    # Health tip
+    create_health_tips()
+    
+    # Symptom checker
+    selected_symptoms = create_symptom_checker()
+    
     # Main input section
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown('<h2>📝 Describe Your Symptoms</h2>', unsafe_allow_html=True)
+    
+    # Pre-fill if quick symptoms selected
+    default_text = st.session_state.get('quick_symptoms', '')
     
     # Language selection
     language = st.selectbox(
@@ -1221,6 +1233,7 @@ def main():
     # Symptoms input
     symptoms = st.text_area(
         "Describe your symptoms in detail:",
+        value=default_text,
         height=150,
         placeholder="Please provide detailed information about your symptoms, including:\n• Duration of symptoms\n• Severity (1-10 scale)\n• Associated symptoms\n• Any triggers or patterns\n• Previous medical history related to these symptoms",
         help="Be as detailed as possible for better analysis"
@@ -1399,11 +1412,141 @@ def main():
                 </div>
             </div>
             """, unsafe_allow_html=True)
+            
+            # Export functionality
+            export_text = export_results(result, symptoms)
+            col1, col2, col3 = st.columns([1, 2, 1])
+            with col2:
+                st.download_button(
+                    label="📥 Download Analysis Report",
+                    data=export_text,
+                    file_name=f"medical_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+                    mime="text/plain",
+                    use_container_width=True
+                )
         
         # Add timestamp
         st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem; margin-top: 2rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
+
+def create_symptom_checker():
+    """Interactive symptom checker with checkboxes."""
+    st.markdown('<div class="input-section">', unsafe_allow_html=True)
+    st.markdown('<h2>✅ Quick Symptom Checker</h2>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #4a5568; margin-bottom: 1rem;">Select symptoms you are experiencing:</p>', unsafe_allow_html=True)
+    
+    common_symptoms = {
+        'General': ['Fever', 'Fatigue', 'Weakness', 'Weight Loss', 'Weight Gain'],
+        'Respiratory': ['Cough', 'Shortness of Breath', 'Wheezing', 'Chest Pain', 'Sore Throat'],
+        'Digestive': ['Nausea', 'Vomiting', 'Diarrhea', 'Constipation', 'Abdominal Pain'],
+        'Neurological': ['Headache', 'Dizziness', 'Confusion', 'Memory Loss', 'Numbness'],
+        'Other': ['Joint Pain', 'Muscle Aches', 'Skin Rash', 'Itching', 'Swelling']
+    }
+    
+    selected_symptoms = []
+    cols = st.columns(3)
+    
+    for idx, (category, symptoms) in enumerate(common_symptoms.items()):
+        with cols[idx % 3]:
+            st.markdown(f"**{category}**")
+            for symptom in symptoms:
+                if st.checkbox(symptom, key=f"symptom_{symptom}"):
+                    selected_symptoms.append(symptom)
+    
+    if selected_symptoms:
+        st.success(f"✅ Selected {len(selected_symptoms)} symptom(s): {', '.join(selected_symptoms)}")
+        symptom_text = f"I am experiencing: {', '.join(selected_symptoms)}"
+        st.session_state['quick_symptoms'] = symptom_text
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    return selected_symptoms
+
+def create_emergency_section():
+    """Emergency contacts and quick actions."""
+    st.markdown("""
+    <div style='background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); 
+                padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                border: 3px solid #ef4444;'>
+        <h2 style='color: #ef4444; margin-bottom: 1rem;'>🚨 Emergency Information</h2>
+        <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;'>
+            <div style='background: white; padding: 1rem; border-radius: 10px;'>
+                <h4 style='color: #ef4444; margin: 0;'>📞 Emergency</h4>
+                <p style='font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; color: #1a202c;'>911</p>
+            </div>
+            <div style='background: white; padding: 1rem; border-radius: 10px;'>
+                <h4 style='color: #3b82f6; margin: 0;'>🏥 Poison Control</h4>
+                <p style='font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; color: #1a202c;'>1-800-222-1222</p>
+            </div>
+            <div style='background: white; padding: 1rem; border-radius: 10px;'>
+                <h4 style='color: #10b981; margin: 0;'>💬 Crisis Hotline</h4>
+                <p style='font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; color: #1a202c;'>988</p>
+            </div>
+        </div>
+        <p style='margin-top: 1rem; color: #7f1d1d; font-weight: 600;'>
+            ⚠️ If you're experiencing a medical emergency, call 911 immediately!
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+def create_health_tips():
+    """Daily health tips carousel."""
+    tips = [
+        "💧 Drink at least 8 glasses of water daily for optimal hydration",
+        "🏃 Exercise for 30 minutes daily to maintain cardiovascular health",
+        "🥗 Eat 5 servings of fruits and vegetables every day",
+        "😴 Get 7-9 hours of quality sleep each night",
+        "🧘 Practice stress management through meditation or yoga",
+        "🚭 Avoid smoking and limit alcohol consumption",
+        "🦷 Maintain good oral hygiene by brushing twice daily",
+        "☀️ Get 15 minutes of sunlight daily for Vitamin D",
+        "🤝 Stay socially connected with friends and family",
+        "📅 Schedule regular health check-ups and screenings"
+    ]
+    
+    import random
+    tip = random.choice(tips)
+    
+    st.markdown(f"""
+    <div style='background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); 
+                padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
+                border-left: 5px solid #3b82f6; text-align: center;'>
+        <h3 style='color: #1e40af; margin-bottom: 1rem;'>💡 Daily Health Tip</h3>
+        <p style='font-size: 1.2rem; color: #1e3a8a; font-weight: 500; margin: 0;'>{tip}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+def export_results(result, symptoms):
+    """Export analysis results as text."""
+    if result:
+        export_text = f"""
+MEDICAL ANALYSIS REPORT
+Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+{'='*50}
+
+CONDITION: {result['condition']}
+
+SYMPTOMS ANALYZED:
+{symptoms}
+
+DESCRIPTION:
+{result['description']}
+
+COMMON SYMPTOMS:
+{chr(10).join(['• ' + s for s in result['symptoms']])}
+
+RECOMMENDED PRECAUTIONS:
+{chr(10).join([f'{i+1}. {p}' for i, p in enumerate(result['precautions'])])}
+
+WHEN TO SEE A DOCTOR:
+{result['when_to_see_doctor']}
+
+{'='*50}
+DISCLAIMER: This analysis is for informational purposes only.
+Always consult with qualified healthcare providers.
+"""
+        return export_text
+    return ""
 
 if __name__ == "__main__":
     main()
