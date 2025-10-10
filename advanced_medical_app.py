@@ -1267,15 +1267,15 @@ def main():
         result = analyze_symptoms(symptoms)
         progress_text.empty()
         progress_bar.empty()
+        
+        if not result:
+            st.warning("⚠️ Could not identify a specific condition based on the symptoms provided. Please consult a healthcare provider for proper diagnosis.")
+        else:
+            # Display results with enhanced styling
+            confidence_color = "#10b981" if result['confidence'] > 0.7 else "#f59e0b" if result['confidence'] > 0.5 else "#ef4444"
+            severity_color = "#ef4444" if result['severity'] == "High" else "#f59e0b" if "Moderate" in result['severity'] else "#10b981"
             
-            if not result:
-                st.warning("⚠️ Could not identify a specific condition based on the symptoms provided. Please consult a healthcare provider for proper diagnosis.")
-            else:
-                # Display results with enhanced styling
-                confidence_color = "#10b981" if result['confidence'] > 0.7 else "#f59e0b" if result['confidence'] > 0.5 else "#ef4444"
-                severity_color = "#ef4444" if result['severity'] == "High" else "#f59e0b" if "Moderate" in result['severity'] else "#10b981"
-                
-                st.markdown(f"""
+            st.markdown(f"""
                 <div style='text-align: center; margin: 2rem 0;'>
                     <h1 style='font-size: 2.5rem; color: #667eea; margin-bottom: 1rem;'>🏥 {result['condition']}</h1>
                     <div style='display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;'>
@@ -1286,62 +1286,62 @@ def main():
                             ⚠️ Severity: {result['severity']}
                         </span>
                     </div>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("---")
-                
-                # Description with icon
-                st.markdown(f"""
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("---")
+            
+            # Description with icon
+            st.markdown(f"""
                 <div style='background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #667eea;'>
                     <h3 style='color: #667eea; margin-bottom: 1rem;'>📖 Description</h3>
                     <p style='font-size: 1.1rem; line-height: 1.8; color: #2d3748;'>{result['description']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Symptoms section
-                st.markdown("""
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Symptoms section
+            st.markdown("""
                 <div style='background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #3b82f6;'>
                     <h3 style='color: #3b82f6; margin-bottom: 1rem;'>🔍 Common Symptoms</h3>
-                """, unsafe_allow_html=True)
-                for symptom in result['symptoms']:
-                    st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>✓ {symptom}</p>", unsafe_allow_html=True)
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-                # Precautions section
-                st.markdown("""
+            """, unsafe_allow_html=True)
+            for symptom in result['symptoms']:
+                st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>✓ {symptom}</p>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+            # Precautions section
+            st.markdown("""
                 <div style='background: linear-gradient(135deg, #d1fae5 0%, #d1f4e0 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #10b981;'>
                     <h3 style='color: #10b981; margin-bottom: 1rem;'>⚕️ Recommended Precautions</h3>
-                """, unsafe_allow_html=True)
-                for i, precaution in enumerate(result['precautions'], 1):
-                    st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>{i}. {precaution}</p>", unsafe_allow_html=True)
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-                # When to see doctor section
-                st.markdown(f"""
+            """, unsafe_allow_html=True)
+            for i, precaution in enumerate(result['precautions'], 1):
+                st.markdown(f"<p style='margin: 0.5rem 0; font-size: 1.05rem;'>{i}. {precaution}</p>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+            # When to see doctor section
+            st.markdown(f"""
                 <div style='background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); 
                             padding: 1.5rem; border-radius: 15px; margin: 1.5rem 0;
                             border-left: 5px solid #ef4444;'>
                     <h3 style='color: #ef4444; margin-bottom: 1rem;'>🚨 When to See a Doctor</h3>
                     <p style='font-size: 1.1rem; line-height: 1.8; color: #7f1d1d; font-weight: 600;'>{result['when_to_see_doctor']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div style='text-align: center; margin: 2rem 0;'>
+                <div style='display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                            color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600;
+                            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);'>
+                    ✅ Analysis Completed Successfully!
                 </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div style='text-align: center; margin: 2rem 0;'>
-                    <div style='display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                                color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600;
-                                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);'>
-                        ✅ Analysis Completed Successfully!
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+            </div>
+            """, unsafe_allow_html=True)
         
         # Add timestamp
         st.markdown(f"<p style='text-align: right; color: #718096; font-size: 0.9rem; margin-top: 2rem;'>Analysis generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>", unsafe_allow_html=True)
