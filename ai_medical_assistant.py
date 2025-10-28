@@ -102,6 +102,23 @@ st.markdown("""
         border-radius: 15px !important;
         padding: 1rem !important;
     }
+    /* Better text visibility */
+    .stMarkdown, .stMarkdown p, .stMarkdown li {
+        color: #1a202c !important;
+        font-size: 1.05rem !important;
+        line-height: 1.7 !important;
+    }
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #1a202c !important;
+        font-weight: 700 !important;
+    }
+    /* Sidebar text */
+    .css-1d391kg, [data-testid="stSidebar"] {
+        color: #1a202c !important;
+    }
+    [data-testid="stSidebar"] .stMarkdown {
+        color: #2d3748 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -117,10 +134,10 @@ st.markdown("""
 tab1, tab2 = st.tabs(["💬 Chat with AI", "📸 Image Analysis"])
 
 with tab1:
-    st.markdown("### 💬 Chat with AI - Ask Anything!")
+    st.markdown("### **💬 Chat with AI - Ask Anything!**")
     
     # Example questions
-    with st.expander("💡 Example Questions You Can Ask"):
+    with st.expander("**💡 Example Questions You Can Ask**"):
         st.markdown("""
         **Symptoms & Diagnosis:**
         - "I have a headache, fever, and sore throat. What could it be?"
@@ -190,7 +207,7 @@ Just ask me anything about health and medicine. I'm here to help! 😊"""
                     st.error(response)
 
 with tab2:
-    st.markdown("### Upload a medical image for AI analysis")
+    st.markdown("### **📸 Upload Medical Image for AI Analysis**")
     
     col1, col2 = st.columns([2, 1])
     
@@ -216,7 +233,7 @@ with tab2:
                     analysis, success = analyze_medical_image(image, additional_info)
                     
                     if success:
-                        st.markdown("### 📊 AI Analysis Results")
+                        st.markdown("### **📊 AI Analysis Results**")
                         st.markdown(f"""
                         <div style='background: white; padding: 2rem; border-radius: 15px; 
                                     box-shadow: 0 5px 20px rgba(0,0,0,0.15);'>
@@ -228,54 +245,36 @@ with tab2:
                         st.error(analysis)
     
     with col2:
-        st.markdown("### 💡 Tips")
+        st.markdown("### **💡 Tips for Best Results**")
         st.info("""
-        **For best results:**
-        - Use clear, well-lit images
-        - Ensure image is in focus
-        - Provide additional context
-        - Multiple angles help
-        """)
-        
-        st.markdown("### 📋 Supported Images")
-        st.success("""
-        ✓ X-rays
-        ✓ MRI scans
-        ✓ CT scans
-        ✓ Skin conditions
-        ✓ Rashes
-        ✓ Wounds
-        ✓ Any medical images
+        - Use **clear, well-lit** images
+        - Ensure image is **in focus**
+        - Provide **additional context**
+        - **Multiple angles** help with diagnosis
         """)
 
 # Sidebar
 with st.sidebar:
-    st.markdown("### 🎯 Features")
+    st.markdown("### **🎯 Features**")
     st.markdown("""
     - 🤖 **Real AI** powered by Google Gemini
     - ⚡ **Instant** responses
     - 💬 **Chat Interface** for follow-ups
     - 📸 **Image Analysis** with AI Vision
-    - 🎯 **100% Accurate** medical insights
+    - 🎯 **Accurate** medical insights
     - 🆓 **Completely Free** to use
     """)
     
-    st.markdown("### 🚨 Emergency")
+    st.markdown("### **🚨 Emergency**")
     st.error("""
-    **Call 911 if:**
-    - Chest pain
+    **Call 911 immediately if you have:**
+    - Chest pain or pressure
     - Difficulty breathing
     - Severe bleeding
     - Loss of consciousness
-    - Stroke symptoms
+    - Stroke symptoms (FAST)
     """)
     
-    st.markdown("### ⚠️ Disclaimer")
-    st.warning("This AI provides information only. Always consult healthcare professionals for medical advice.")
-    
-    if st.button("🗑️ Clear Chat History"):
+    if st.button("🗑️ Clear Chat History", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
-    
-    st.markdown("---")
-    st.markdown(f"**Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
