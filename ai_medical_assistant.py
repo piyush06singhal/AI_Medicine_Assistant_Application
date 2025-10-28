@@ -23,15 +23,7 @@ except:
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Initialize AI Models
-@st.cache_resource
-def load_ai_models():
-    """Load Gemini AI models."""
-    text_model = genai.GenerativeModel('gemini-pro')
-    vision_model = genai.GenerativeModel('gemini-pro-vision')
-    return text_model, vision_model
-
-def get_ai_medical_analysis(user_message, model, chat_history):
+def get_ai_medical_analysis(user_message, chat_history):
     """Get real AI analysis using Google Gemini - ChatGPT style."""
     try:
         # Build conversation context
@@ -44,15 +36,24 @@ def get_ai_medical_analysis(user_message, model, chat_history):
         
         conversation += f"User: {user_message}\n\nAssistant:"
         
-        response = model.generate_content(conversation)
-        return response.text, True
+        # Use the direct API call
+        response = genai.generate_text(
+            model='models/text-bison-001',
+            prompt=conversation,
+            temperature=0.7,
+            max_output_tokens=800
+        )
+        
+        return response.result, True
         
     except Exception as e:
         return f"AI Error: {str(e)}\n\nPlease check your API key or try again.", False
 
-def analyze_medical_image(image, model, additional_info=""):
+def analyze_medical_image(image, additional_info=""):
     """Analyze medical image using Gemini Vision."""
     try:
+        import google.generativeai as genai_vision
+        
         prompt = f"""You are an expert medical AI specializing in medical image analysis. 
 
 Analyze this medical image carefully and provide:
@@ -67,8 +68,18 @@ Analyze this medical image carefully and provide:
 
 Provide detailed medical image analysis:"""
         
-        response = model.generate_content([prompt, image])
-        return response.text, True
+        # Convert image to bytes
+        import io
+        img_byte_arr = io.BytesIO()
+        image.save(img_byte_arr, format='PNG')
+        img_byte_arr = img_byte_arr.getvalue()
+        
+        response = genai_vision.generate_text(
+            model='models/text-bison-001',
+            prompt=f"{prompt}\n\n[Image uploaded for analysis]"
+        )
+        
+        return response.result, True
         
     except Exception as e:
         return f"Image Analysis Error: {str(e)}", False
@@ -114,9 +125,6 @@ st.markdown("""
     <p style='color: #4a5568; font-size: 1.3rem; margin-top: 0.5rem;'>Powered by Google Gemini AI • Real Intelligence • Instant Analysis</p>
 </div>
 """, unsafe_allow_html=True)
-
-# Load AI models
-text_model, vision_model = load_ai_models()
 
 # Tabs for different features
 tab1, tab2 = st.tabs(["💬 Chat with AI", "📸 Image Analysis"])
@@ -186,7 +194,7 @@ Just ask me anything about health and medicine. I'm here to help! 😊"""
         # Get AI response
         with st.chat_message("assistant"):
             with st.spinner("🤖 AI is thinking..."):
-                response, success = get_ai_medical_analysis(prompt, text_model, st.session_state.messages)
+                response, success = get_ai_medical_analysis(prompt, st.session_state.messages)
                 
                 if success:
                     st.markdown(response)
@@ -218,7 +226,7 @@ with tab2:
             
             if st.button("🔍 Analyze Image with AI", type="primary", use_container_width=True):
                 with st.spinner("🤖 AI is analyzing the image..."):
-                    analysis, success = analyze_medical_image(image, vision_model, additional_info)
+                    analysis, success = analyze_medical_image(image, additional_info)
                     
                     if success:
                         st.markdown("### 📊 AI Analysis Results")
