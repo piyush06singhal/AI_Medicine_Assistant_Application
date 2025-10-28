@@ -220,7 +220,7 @@ with tab2:
         
         if uploaded_file:
             image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Medical Image", use_column_width=True)
+            st.image(image, caption="Uploaded Medical Image", use_container_width=True)
             
             additional_info = st.text_area(
                 "Additional information (optional):",
