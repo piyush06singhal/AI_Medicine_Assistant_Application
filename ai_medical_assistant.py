@@ -36,11 +36,22 @@ def get_ai_medical_analysis(user_message, chat_history):
         
         conversation += f"User: {user_message}\n\nAssistant:"
         
-        # Use the correct model name from available models
-        model = genai.GenerativeModel('models/gemini-2.5-flash')
-        response = model.generate_content(conversation)
+        # Try multiple models for future-proofing (fallback mechanism)
+        models_to_try = [
+            'models/gemini-2.5-flash',      # Primary
+            'models/gemini-flash-latest',   # Fallback 1
+            'models/gemini-pro-latest',     # Fallback 2
+        ]
         
-        return response.text, True
+        for model_name in models_to_try:
+            try:
+                model = genai.GenerativeModel(model_name)
+                response = model.generate_content(conversation)
+                return response.text, True
+            except:
+                continue  # Try next model
+        
+        return "All AI models are currently unavailable. Please try again later.", False
         
     except Exception as e:
         return f"AI Error: {str(e)}", False
@@ -220,7 +231,7 @@ with tab2:
         
         if uploaded_file:
             image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Medical Image", use_container_width=True)
+            st.image(image, caption="Uploaded Medical Image", width='stretch')
             
             additional_info = st.text_area(
                 "Additional information (optional):",
@@ -228,7 +239,7 @@ with tab2:
                 height=100
             )
             
-            if st.button("🔍 Analyze Image with AI", type="primary", use_container_width=True):
+            if st.button("🔍 Analyze Image with AI", type="primary", width='stretch'):
                 with st.spinner("🤖 AI is analyzing the image..."):
                     analysis, success = analyze_medical_image(image, additional_info)
                     
@@ -274,7 +285,9 @@ with st.sidebar:
     - Loss of consciousness
     - Stroke symptoms (FAST)
     """)
-    
-    if st.button("🗑️ Clear Chat History", use_container_width=True):
+     
+
+     
+    if st.button("🗑️ Clear Chat History", width='stretch'):
         st.session_state.messages = []
         st.rerun()
