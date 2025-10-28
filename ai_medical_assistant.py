@@ -36,15 +36,11 @@ def get_ai_medical_analysis(user_message, chat_history):
         
         conversation += f"User: {user_message}\n\nAssistant:"
         
-        # Use the direct API call
-        response = genai.generate_text(
-            model='models/text-bison-001',
-            prompt=conversation,
-            temperature=0.7,
-            max_output_tokens=800
-        )
+        # Use the correct GenerativeModel API
+        model = genai.GenerativeModel('gemini-pro')
+        response = model.generate_content(conversation)
         
-        return response.result, True
+        return response.text, True
         
     except Exception as e:
         return f"AI Error: {str(e)}\n\nPlease check your API key or try again.", False
@@ -52,8 +48,6 @@ def get_ai_medical_analysis(user_message, chat_history):
 def analyze_medical_image(image, additional_info=""):
     """Analyze medical image using Gemini Vision."""
     try:
-        import google.generativeai as genai_vision
-        
         prompt = f"""You are an expert medical AI specializing in medical image analysis. 
 
 Analyze this medical image carefully and provide:
@@ -68,18 +62,11 @@ Analyze this medical image carefully and provide:
 
 Provide detailed medical image analysis:"""
         
-        # Convert image to bytes
-        import io
-        img_byte_arr = io.BytesIO()
-        image.save(img_byte_arr, format='PNG')
-        img_byte_arr = img_byte_arr.getvalue()
+        # Use Gemini Pro Vision model
+        model = genai.GenerativeModel('gemini-pro-vision')
+        response = model.generate_content([prompt, image])
         
-        response = genai_vision.generate_text(
-            model='models/text-bison-001',
-            prompt=f"{prompt}\n\n[Image uploaded for analysis]"
-        )
-        
-        return response.result, True
+        return response.text, True
         
     except Exception as e:
         return f"Image Analysis Error: {str(e)}", False
