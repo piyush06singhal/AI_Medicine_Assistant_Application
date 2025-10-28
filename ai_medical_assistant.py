@@ -36,14 +36,14 @@ def get_ai_medical_analysis(user_message, chat_history):
         
         conversation += f"User: {user_message}\n\nAssistant:"
         
-        # Use the correct GenerativeModel API
-        model = genai.GenerativeModel('gemini-pro')
+        # Use the correct model name from available models
+        model = genai.GenerativeModel('models/gemini-2.5-flash')
         response = model.generate_content(conversation)
         
         return response.text, True
         
     except Exception as e:
-        return f"AI Error: {str(e)}\n\nPlease check your API key or try again.", False
+        return f"AI Error: {str(e)}", False
 
 def analyze_medical_image(image, additional_info=""):
     """Analyze medical image using Gemini Vision."""
@@ -62,8 +62,8 @@ Analyze this medical image carefully and provide:
 
 Provide detailed medical image analysis:"""
         
-        # Use Gemini Pro Vision model
-        model = genai.GenerativeModel('gemini-pro-vision')
+        # Use the correct model that supports vision
+        model = genai.GenerativeModel('models/gemini-2.5-flash')
         response = model.generate_content([prompt, image])
         
         return response.text, True
