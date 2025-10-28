@@ -15,8 +15,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# Google Gemini API Key
-GEMINI_API_KEY = "AIzaSyD6HMYeylRgqmUER5mbeBHKjnfapDOX-ho"
+# Google Gemini API Key - Get from Streamlit secrets or use hardcoded
+try:
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+except:
+    GEMINI_API_KEY = "AIzaSyDADGz7JyDYUSLPmFCTpePgHEhIq98mSwY"
+
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Initialize AI Models
@@ -27,26 +31,24 @@ def load_ai_models():
     vision_model = genai.GenerativeModel('gemini-1.5-pro')
     return text_model, vision_model
 
-def get_ai_medical_analysis(symptoms, model):
-    """Get real AI analysis using Google Gemini."""
+def get_ai_medical_analysis(user_message, model, chat_history):
+    """Get real AI analysis using Google Gemini - ChatGPT style."""
     try:
-        prompt = f"""You are an expert medical AI assistant. Analyze these symptoms and provide:
-
-1. **Possible Medical Conditions**: List the most likely conditions
-2. **Detailed Explanation**: Explain why these conditions match the symptoms
-3. **Key Symptoms to Monitor**: What symptoms to watch for
-4. **Recommended Actions**: Step-by-step precautions and care
-5. **When to Seek Immediate Care**: Emergency warning signs
-
-Patient Symptoms: {symptoms}
-
-Provide a comprehensive, detailed medical analysis:"""
+        # Build conversation context
+        conversation = "You are an expert medical AI assistant. You provide accurate, helpful medical information in a conversational way, similar to ChatGPT. You can answer ANY medical question, explain diseases, symptoms, treatments, medications, and provide health advice. Always be helpful, clear, and professional.\n\n"
         
-        response = model.generate_content(prompt)
+        # Add chat history for context
+        for msg in chat_history[-6:]:  # Last 3 exchanges
+            role = "User" if msg["role"] == "user" else "Assistant"
+            conversation += f"{role}: {msg['content']}\n\n"
+        
+        conversation += f"User: {user_message}\n\nAssistant:"
+        
+        response = model.generate_content(conversation)
         return response.text, True
         
     except Exception as e:
-        return f"AI Error: {str(e)}", False
+        return f"AI Error: {str(e)}\n\nPlease check your API key or try again.", False
 
 def analyze_medical_image(image, model, additional_info=""):
     """Analyze medical image using Gemini Vision."""
@@ -120,7 +122,33 @@ text_model, vision_model = load_ai_models()
 tab1, tab2 = st.tabs(["💬 Chat with AI", "📸 Image Analysis"])
 
 with tab1:
-    st.markdown("### Ask me anything about your health!")
+    st.markdown("### 💬 Chat with AI - Ask Anything!")
+    
+    # Example questions
+    with st.expander("💡 Example Questions You Can Ask"):
+        st.markdown("""
+        **Symptoms & Diagnosis:**
+        - "I have a headache, fever, and sore throat. What could it be?"
+        - "What are the symptoms of diabetes?"
+        - "I'm feeling dizzy and nauseous, should I be worried?"
+        
+        **Medications:**
+        - "What are the side effects of ibuprofen?"
+        - "Can I take aspirin with blood pressure medication?"
+        - "What's the difference between paracetamol and ibuprofen?"
+        
+        **Health Conditions:**
+        - "Explain what hypertension is and how to manage it"
+        - "What causes kidney stones?"
+        - "How is COVID-19 different from the flu?"
+        
+        **General Health:**
+        - "How much water should I drink daily?"
+        - "What foods help lower cholesterol?"
+        - "How can I improve my sleep quality?"
+        
+        **Ask ANYTHING medical - I'm here to help!** 🤖
+        """)
     
     # Initialize chat history
     if 'messages' not in st.session_state:
@@ -128,7 +156,19 @@ with tab1:
         # Add welcome message
         st.session_state.messages.append({
             "role": "assistant",
-            "content": "👋 Hello! I'm your AI Medical Assistant powered by Google Gemini. I can help you understand your symptoms, answer medical questions, and provide health guidance. How can I help you today?"
+            "content": """👋 Hello! I'm your AI Medical Assistant powered by Google Gemini.
+
+I can help you with:
+- 🩺 Symptom analysis and disease identification
+- 💊 Medication information and side effects
+- 🏥 Treatment options and medical procedures
+- 🧬 Health conditions and their management
+- 🍎 Nutrition and lifestyle advice
+- 🧪 Lab results interpretation
+- 📋 Medical terminology explanations
+- ❓ Any medical question you have!
+
+Just ask me anything about health and medicine. I'm here to help! 😊"""
         })
     
     # Display chat history
@@ -145,8 +185,8 @@ with tab1:
         
         # Get AI response
         with st.chat_message("assistant"):
-            with st.spinner("🤖 AI is analyzing your symptoms..."):
-                response, success = get_ai_medical_analysis(prompt, text_model)
+            with st.spinner("🤖 AI is thinking..."):
+                response, success = get_ai_medical_analysis(prompt, text_model, st.session_state.messages)
                 
                 if success:
                     st.markdown(response)
