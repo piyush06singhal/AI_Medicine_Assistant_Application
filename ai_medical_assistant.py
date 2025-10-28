@@ -27,8 +27,8 @@ genai.configure(api_key=GEMINI_API_KEY)
 @st.cache_resource
 def load_ai_models():
     """Load Gemini AI models."""
-    text_model = genai.GenerativeModel('gemini-1.5-pro')
-    vision_model = genai.GenerativeModel('gemini-1.5-pro')
+    text_model = genai.GenerativeModel('gemini-pro')
+    vision_model = genai.GenerativeModel('gemini-pro-vision')
     return text_model, vision_model
 
 def get_ai_medical_analysis(user_message, model, chat_history):
